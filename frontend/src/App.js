@@ -54,8 +54,7 @@ function App() {
           <p><strong>Student Name:</strong> {result.studentName}</p>
           <p><strong>Roll Number:</strong> {result.rollNumber}</p>
           <p><strong>Mother's Name:</strong> {result.motherName}</p>
-          <p><strong>Marks:</strong> {result.marks}</p>
-          <p><strong>Status:</strong> {result.status}</p>
+          <p><strong>Marks:</strong> {result.percentage}</p>
         </div>
       )}
     </div>
@@ -63,3 +62,5 @@ function App() {
 }
 
 export default App;
+
+

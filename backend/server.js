@@ -1,129 +1,147 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
-const mysql = require("mysql2");
-const bodyParser = require("body-parser");
+const mysql = require("mysql2/promise");
 const axios = require("axios");
+const cheerio = require("cheerio");
+const qs = require("qs");  // For URL encoding
+
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
-// MySQL Connection
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",   // Change if needed
-    password: "Kaivalya@2005",   // Change if needed
-    database: "StudentResults"
+// MySQL Connection Pool
+const db = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-// Fetch data from external API & store in MySQL
-app.get("/fetch-and-store-results", async (req, res) => {
-    console.log("Received request to /fetch-and-store-results");
+db.getConnection()
+  .then(connection => {
+    console.log('Successfully connected to the database!');
+    connection.release(); // Release the connection back to the pool
+  })
+  .catch(error => {
+    console.error('Failed to connect to the database:', error.message);
+  });
+
+// Headers required for the request
+const HEADERS = {
+    "Host": "mahresult.nic.in",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Accept-Encoding": "gzip, deflate, br, zstd",
+    "Referer": "https://mahresult.nic.in/sscmarch2024/sscmarch2024.htm",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Origin": "https://mahresult.nic.in",
+    "Connection": "keep-alive",
+    "Cookie": "ASPSESSIONIDSQSQTTAS=MPFNAGABHDEMEJIJIEPFMPFI; ASPSESSIONIDSSRTSQAS=LMLJIKABEGEPNMMCNFFHOGGC; ASPSESSIONIDACQCSDTT=DNDPKIOABCFEDMPAPJAADEAL; ASPSESSIONIDSQQSQTBS=OGBNDHOALJGOHMOBAFFEINAJ",
+    "Upgrade-Insecure-Requests": "1",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "same-origin",
+    "Sec-Fetch-User": "?1",
+    "Priority": "u=0, i"
+};
+
+// Function to fetch result from the website
+async function fetchResult(rollNumber, motherName) {
     try {
+        const postData = qs.stringify({ regno: rollNumber, mname: motherName });
+        
         const response = await axios.post(
-            "https://sandbox.api-setu.in/certificate/v3/hsscboardmh/sscer",
-            {
-                txnId: "f7f1469c-29b0-4325-9dfc-c567200a70f7",
-                format: "xml",
-                certificateParameters: {
-                    YEAR: "2023",
-                    rollnumber: "123456",
-                    totalmarks: "123",
-                    exsession: "MAR",
-                    FullName: "Demo user"
-                },
-                consentArtifact: {
-                    consent: {
-                        consentId: "ea9c43aa-7f5a-4bf3-a0be-e1caa24737ba",
-                        timestamp: "2024-12-13T06:30:48.485Z",
-                        dataConsumer: { id: "string" },
-                        dataProvider: { id: "string" },
-                        purpose: { description: "string" },
-                        user: {
-                            idType: "string",
-                            idNumber: "string",
-                            mobile: "9988776655",
-                            email: "test@email.com"
-                        },
-                        data: { id: "string" },
-                        permission: {
-                            access: "string",
-                            dateRange: {
-                                from: "2024-12-13T06:30:48.485Z",
-                                to: "2024-12-13T06:30:48.485Z"
-                            },
-                            frequency: { unit: "string", value: 0, repeats: 0 }
-                        }
-                    },
-                    signature: { signature: "string" }
-                }
-            },
-            {
-                headers: {
-                    "Accept": "application/xml, application/json",
-                    "Content-Type": "application/json",
-                    "X-APISETU-APIKEY": "demokey123456ABCD789",
-                    "X-APISETU-CLIENTID": "in.gov.sandbox"
-                }
-            }
+            "https://mahresult.nic.in/sscmarch2024/sscresultviewmarch24.asp",
+            postData,
+            { headers: HEADERS }
         );
 
-        // Extract student details from API response
-        const studentData = response.data; // Modify according to actual API response
-        const rollNumber = studentData.certificateParameters.rollnumber;
-        const studentName = studentData.certificateParameters.FullName;
-        const marks = studentData.certificateParameters.totalmarks;
-        const motherName = "Not Provided"; // If API does not give this, set manually
-        const status = marks >= 35 ? "Pass" : "Fail";
-
-        // Insert into MySQL
-        const query = `
-            INSERT INTO results (rollNumber, motherName, studentName, marks, status) 
-            VALUES (?, ?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE 
-                studentName = VALUES(studentName),
-                marks = VALUES(marks),
-                status = VALUES(status);
-        `;
-        db.query(query, [rollNumber, motherName, studentName, marks, status], (err) => {
-            if (err) {
-                return res.status(500).json({ error: "Database insertion failed" });
-            }
-            console.log("API Response received:", response.data);  // Debugging log
-            res.json({ message: "Data fetched and stored successfully" });
-        });
-
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        res.status(500).json({ error: "Failed to fetch data" });
-    }
-});
-
-db.connect(err => {
-    if (err) {
-        console.error("Database connection failed:", err);
-    } else {
-        console.log("Connected to MySQL database ✅");
-    }
-});
-
-// API to fetch student result by roll number & mother's name
-app.post("/get-result", (req, res) => {
-    const { rollNumber, motherName } = req.body;
-
-    const query = "SELECT * FROM results WHERE rollNumber = ? AND motherName = ?";
-    db.query(query, [rollNumber, motherName], (err, results) => {
-        if (err) {
-            res.status(500).json({ error: "Database error" });
-        } else if (results.length === 0) {
-            res.status(404).json({ message: "No record found" });
-        } else {
-            res.json(results[0]);
+        const html = response.data;
+        const $ = cheerio.load(html);
+        
+        // Extract percentage from the HTML (modify selector if needed)
+        const percentage = $("td:contains('Percentage')").next().text().trim();
+        
+        if (!percentage) {
+            console.log(`No percentage found for ${rollNumber}`);
+            return null;
         }
-    });
-});
+
+        // Clean the percentage value by removing non-numeric characters (except decimal point)
+        const cleanedPercentage = percentage.replace(/[^\d.]/g, '');
+
+        // Ensure the cleaned value is a valid number
+        if (isNaN(cleanedPercentage) || cleanedPercentage === '') {
+            console.log(`Invalid percentage for ${rollNumber}: ${percentage}`);
+            return null;
+        }
+
+        return parseFloat(cleanedPercentage);
+    } catch (error) {
+        console.error(`Error fetching result for ${rollNumber}:`, error.message);
+        return null;
+    }
+}
+
+// POST route for fetching results
+app.post("/get-result", async (req, res) => {
+    const { rollNumber, motherName } = req.body;
+  
+    try {
+      // Fetch the student details from the database based on the roll number and mother's name
+      const [student] = await db.query(
+        "SELECT studentName, rollNumber, motherName, percentage FROM results WHERE rollNumber = ? AND motherName = ?",
+        [rollNumber, motherName]
+      );
+  
+      // If no record is found, return a 404 error
+      if (student.length === 0) {
+        return res.status(404).json({ error: "No record found" });
+      }
+  
+      // If percentage is not available, fetch it from the website
+      if (!percentage) {
+        const fetchedPercentage = await fetchResult(dbRollNumber, dbMotherName);
+  
+        if (!fetchedPercentage) {
+          return res.status(500).json({ error: "Unable to fetch percentage" });
+        }
+  
+        // Update the database with the fetched percentage
+        await db.query(
+          "UPDATE results SET percentage = ? WHERE rollNumber = ? AND motherName = ?",
+          [fetchedPercentage, dbRollNumber, dbMotherName]
+        );
+        
+        return res.json({
+          studentName,
+          rollNumber: dbRollNumber,
+          motherName: dbMotherName,
+          percentage: fetchedPercentage,
+        });
+      }
+  
+      // If the percentage exists in the database, return the data
+      res.json({
+        studentName,
+        rollNumber: dbRollNumber,
+        motherName: dbMotherName,
+        percentage,
+      });
+    } catch (error) {
+      console.error("Error fetching result:", error.message);
+      res.status(500).json({ error: "Server error" });
+    }
+  });
 
 // Start Server
 app.listen(PORT, () => {
