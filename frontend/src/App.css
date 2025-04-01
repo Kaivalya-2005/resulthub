@@ -1,67 +1,233 @@
-/* General Styles */
-body {
+/* Reset and Base Styles */
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
   color: #333;
 }
 
-/* App Container */
 .App {
-  text-align: center;
-  padding: 20px;
+  min-height: 100vh;
+  padding: 1rem;
 }
 
-/* Heading */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Header */
 h1 {
-  color: #007bff;
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  padding: 0 10px;
 }
 
-/* Form Styling */
-form {
+/* Card Styles */
+.card {
   background: white;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 400px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Form Styles */
+.input-group {
+  margin-bottom: 1.25rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 input {
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 0.8rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 16px; /* Prevents zoom on mobile */
+  transition: border-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none; /* Removes default iOS styling */
+}
+
+input:focus {
+  outline: none;
+  border-color: #4299e1;
 }
 
 button {
   width: 100%;
-  padding: 10px;
-  background-color: #007bff;
+  padding: 1rem;
+  background: #4299e1;
   color: white;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Result Display */
-.result-container {
-  background: white;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 400px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.result-container p {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
+button:active {
+  transform: scale(0.98);
+}
+
+button:hover:not(:disabled) {
+  background: #3182ce;
+}
+
+button:disabled {
+  background: #a0aec0;
+  cursor: not-allowed;
+}
+
+/* Result Card */
+.result-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  animation: fadeIn 0.5s ease-out;
+  width: 100%;
+  max-width: 500px;
+  margin: 1.5rem auto;
+}
+
+.result-card h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 480px) {
+  .result-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.result-item {
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.result-item span {
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+.result-item strong {
+  color: #2d3748;
+  font-size: 1.1rem;
+  word-break: break-word;
+}
+
+/* Download Button */
+.download-btn {
+  background: #48bb78;
+  margin-top: 1rem;
+  padding: 0.8rem;
+}
+
+.download-btn:hover {
+  background: #38a169;
+}
+
+/* Error Message */
+.error-message {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  margin: 1rem auto;
+  font-weight: 500;
+  max-width: 500px;
+}
+
+/* Loading State */
+button:disabled {
+  opacity: 0.7;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Optimizations */
+@media (max-width: 480px) {
+  .App {
+    padding: 0.5rem;
+  }
+
+  .card, .result-card {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  input, button {
+    font-size: 16px;
+    padding: 0.8rem;
+  }
+
+  .result-item {
+    padding: 0.8rem;
+  }
+
+  .result-item strong {
+    font-size: 1rem;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+  button:hover {
+    background: #4299e1; /* Remove hover state on touch devices */
+  }
+
+  .download-btn:hover {
+    background: #48bb78;
+  }
 }
