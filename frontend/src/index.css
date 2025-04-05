@@ -1,76 +1,334 @@
-/* Reset some default browser styles */
-body, h1, h2, p, input, button {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+/* Modern CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Root Variables for Theming */
+:root {
+  --primary-color: #4361ee;
+  --primary-hover: #3a56d4;
+  --success-color: #2ec4b6;
+  --success-hover: #21aea1;
+  --error-color: #e63946;
+  --background-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --result-bg: #f0f9ff;
+  --result-title: #0369a1;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+  --font-main: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Base styles */
+html {
+  font-size: 16px;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-main);
+  background: linear-gradient(135deg, #e0f2fe 0%, #bfdbfe 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-primary);
+  line-height: 1.5;
+  padding: 1rem;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* Main container */
+.App {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Form elements */
+.input-group {
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  transition: var(--transition);
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+/* Button styling */
+button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: var(--transition);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Error message */
+.error-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  color: var(--error-color);
+  background-color: #fee2e2;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-left: 3px solid var(--error-color);
+  text-align: left;
+}
+
+/* Result container */
+.result-card {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background-color: var(--result-bg);
+  border-radius: var(--border-radius);
+  text-align: left;
+  border: 1px solid #bfdbfe;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.result-card h2 {
+  color: var(--result-title);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.result-card h2::before {
+  content: '✓';
+  display: inline-block;
+  color: var(--success-color);
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.result-item {
+  padding: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: calc(var(--border-radius) - 2px);
+  border: 1px solid #e5e7eb;
+}
+
+.result-item span {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.result-item strong {
+  color: var(--text-primary);
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+/* Download button in result */
+.download-btn {
+  background-color: var(--success-color);
+  margin-top: 1.25rem;
+}
+
+.download-btn:hover {
+  background-color: var(--success-hover);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Media queries for responsive design */
+@media (min-width: 480px) {
+  .result-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
   
-  /* Center the entire app */
-  body {
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  /* Main container */
   .App {
-    text-align: center;
+    padding: 2.5rem;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .App {
+    padding: 1.5rem;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  .result-card {
+    padding: 1rem;
+  }
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Loading state indicator */
+button.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+button.loading::after {
+  content: "";
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid transparent;
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-left: 0.5rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
     background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
   }
   
-  /* Form inputs */
-  input {
+  .App {
+    box-shadow: none;
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    max-width: none;
   }
   
-  /* Submit button */
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+  button, input {
+    display: none;
   }
   
-  button:hover {
-    background-color: #0056b3;
+  .result-card {
+    page-break-inside: avoid;
+    border: 1px solid #e5e7eb;
   }
-  
-  /* Error message */
-  p {
-    margin-top: 10px;
-    color: red;
-    font-weight: bold;
-  }
-  
-  /* Result container */
-  .result-container {
-    margin-top: 20px;
-    padding: 15px;
-    background: #e8f5e9;
-    border-radius: 5px;
-    text-align: left;
-  }
-  
-  .result-container h2 {
-    color: #2e7d32;
-    margin-bottom: 10px;
-  }
-  
-  .result-container p {
-    color: black;
-  }
-  
+}
+
+/* Classes for rendering percentage based on performance */
+.percentage-high {
+  color: #047857;
+  font-weight: 700;
+}
+
+.percentage-medium {
+  color: #b45309;
+  font-weight: 700;
+}
+
+.percentage-low {
+  color: #b91c1c;
+  font-weight: 700;
+}
