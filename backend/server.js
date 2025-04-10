@@ -6,7 +6,6 @@ const mysql = require("mysql2/promise");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const puppeteer = require("puppeteer");
-const AWS = require('aws-sdk');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,35 +13,35 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Configure cloud accessibility
-// Import the Google Cloud client library
-const { Storage } = require('@google-cloud/storage');
+// Environment variables validation
+const requiredEnvVariables = [
+  "GCP_PROJECT_ID",
+  "GCP_KEY_FILE",
+  "GCP_BUCKET_NAME",
+  "DB_HOST",
+  "DB_USER",
+  "DB_PASSWORD",
+  "DB_NAME",
+];
 
-// Initialize a Google Cloud Storage client
-const storage = new Storage({
-  projectId: process.env.result-455905, // Replace with your Google Cloud project ID
-  keyFilename: process.env.C:\Users\DELL\Downloads\result-455905-f26811bcb92b.json // Path to your service account key file
-});
-
-// Example: Access a specific bucket
-const bucketName = process.env.standardbucket098; // Replace with your bucket name
-const bucket = storage.bucket(bucketName);
-
-// Example function to upload a file to the bucket
-async function uploadFile(filePath, destination) {
-  try {
-    await bucket.upload(filePath, {
-      destination: destination,
-    });
-    console.log(`${filePath} uploaded to ${bucketName}/${destination}`);
-  } catch (error) {
-    console.error('Error uploading file:', error);
+for (const envVar of requiredEnvVariables) {
+  if (!process.env[envVar]) {
+    console.error(`Error: Missing environment variable ${envVar}`);
+    process.exit(1); // Exit if any required env variable is missing
   }
 }
 
-// Example usage:
-// uploadFile('local/path/to/file.txt', 'remote/destination/path.txt');
+// Google Cloud Storage Configuration
+const { Storage } = require('@google-cloud/storage');
 
+// Initialize Google Cloud Storage client
+const storage = new Storage({
+  projectId: process.env.GCP_PROJECT_ID,
+  keyFilename: process.env.GCP_KEY_FILE
+});
+
+const bucketName = process.env.GCP_BUCKET_NAME;
+const bucket = storage.bucket(bucketName);
 
 // MySQL Connection Pool
 const db = mysql.createPool({
@@ -167,38 +166,23 @@ async function fetchResult(seatNumber, motherName) {
 
 module.exports = fetchResult;
 
-// Function to upload PDF to S3
-async function uploadToS3(pdfBuffer, seatNumber) {
-    try {
-        const params = {
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: `results/${seatNumber}_result.pdf`,
-            Body: pdfBuffer,
-            ContentType: 'application/pdf',
-            ACL: 'public-read'
-        };
+// Function to upload PDF to Google Cloud Storage
+async function uploadToGCS(pdfBuffer, seatNumber) {
+  try {
+    const file = bucket.file(`results/${seatNumber}_result.pdf`);
 
-        const data = await s3.upload(params).promise();
-        return data.Location;
-    } catch (error) {
-        console.error('Error uploading to S3:', error);
-        throw error;
-    }
+    await file.save(pdfBuffer, {
+      contentType: 'application/pdf',
+      public: true, // Makes the file publicly accessible
+    });
+
+    const [metadata] = await file.getMetadata();
+    return metadata.mediaLink; // Returns the public URL of the uploaded file
+  } catch (error) {
+    console.error('Error uploading to GCS:', error);
+    throw error;
+  }
 }
-
-// Function to generate PDF from database data
-async function generatePdfFromDatabase(seatNumber, motherName) {
-    try {
-        const connection = await db.getConnection();
-        try {
-            const [student] = await connection.execute(
-                'SELECT * FROM student_results WHERE seat_number = ? AND mother_name = ?',
-                [seatNumber, motherName]
-            );
-
-            if (student.length === 0) {
-                throw new Error('Student not found');
-            }
 
             // Create HTML template using database data
             const html = `
