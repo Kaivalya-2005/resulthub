@@ -14,12 +14,35 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Configure AWS S3
-const s3 = new AWS.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_REGION
+// Configure cloud accessibility
+// Import the Google Cloud client library
+const { Storage } = require('@google-cloud/storage');
+
+// Initialize a Google Cloud Storage client
+const storage = new Storage({
+  projectId: process.env.GCP_PROJECT_ID, // Replace with your Google Cloud project ID
+  keyFilename: process.env.GCP_KEY_FILE // Path to your service account key file
 });
+
+// Example: Access a specific bucket
+const bucketName = process.env.GCP_BUCKET_NAME; // Replace with your bucket name
+const bucket = storage.bucket(bucketName);
+
+// Example function to upload a file to the bucket
+async function uploadFile(filePath, destination) {
+  try {
+    await bucket.upload(filePath, {
+      destination: destination,
+    });
+    console.log(`${filePath} uploaded to ${bucketName}/${destination}`);
+  } catch (error) {
+    console.error('Error uploading file:', error);
+  }
+}
+
+// Example usage:
+// uploadFile('local/path/to/file.txt', 'remote/destination/path.txt');
+
 
 // MySQL Connection Pool
 const db = mysql.createPool({
