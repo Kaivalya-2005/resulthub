@@ -21,11 +21,11 @@ const { Storage } = require('@google-cloud/storage');
 // Initialize a Google Cloud Storage client
 const storage = new Storage({
   projectId: process.env.result-455905, // Replace with your Google Cloud project ID
-  keyFilename: process.env.GCP_KEY_FILE // Path to your service account key file
+  keyFilename: process.env.C:\Users\DELL\Downloads\result-455905-f26811bcb92b.json // Path to your service account key file
 });
 
 // Example: Access a specific bucket
-const bucketName = process.env.GCP_BUCKET_NAME; // Replace with your bucket name
+const bucketName = process.env.standardbucket098; // Replace with your bucket name
 const bucket = storage.bucket(bucketName);
 
 // Example function to upload a file to the bucket
