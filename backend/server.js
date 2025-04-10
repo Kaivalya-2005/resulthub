@@ -20,7 +20,7 @@ const { Storage } = require('@google-cloud/storage');
 
 // Initialize a Google Cloud Storage client
 const storage = new Storage({
-  projectId: process.env.GCP_PROJECT_ID, // Replace with your Google Cloud project ID
+  projectId: process.env.result-455905, // Replace with your Google Cloud project ID
   keyFilename: process.env.GCP_KEY_FILE // Path to your service account key file
 });
 
