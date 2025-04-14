@@ -653,6 +653,50 @@ app.listen(PORT, async () => {
             `);
 
             console.log('Database tables created/verified');
+          // Function to generate a PDF and save it to the bucket
+async function generateAndSavePdf(bucketName, fileName) {
+  const pdfDoc = new PDFDocument();
+  pdfDoc.fontSize(25).text('Hello World', 100, 100);
+
+  const writeStream = storage.bucket(bucketName).file(fileName).createWriteStream();
+  pdfDoc.pipe(writeStream);
+
+  pdfDoc.end();
+
+  return new Promise((resolve, reject) => {
+    writeStream.on('finish', () => resolve());
+    writeStream.on('error', (err) => reject(err));
+  });
+}
+
+// Function to generate a signed URL for the file
+async function getSignedUrl(bucketName, fileName) {
+  const options = {
+    version: 'v4',
+    action: 'read',
+    expires: Date.now() + 15 * 60 * 1000, // URL valid for 15 minutes
+  };
+
+  const [url] = await storage
+    .bucket(bucketName)
+    .file(fileName)
+    .getSignedUrl(options);
+
+  return url;
+}
+
+// API endpoint to get the signed URL for the PDF
+app.get('/api/get-signed-url', async (req, res) => {
+  const fileName = `${uuidv4()}.pdf`; // Generate a unique filename
+  const signedUrl = await getSignedUrl(GCP_BUCKET_NAME, fileName);
+  res.json({ url: signedUrl, filename: fileName });
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
             // Start processing all students when server starts
             console.log('Starting to process all students...');
