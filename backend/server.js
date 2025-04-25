@@ -461,43 +461,39 @@ async function uploadToGCS(pdfBuffer, seatNumber) {
             </html>
             `;
 
-            // Generate PDF using Puppeteer
-            const browser = await puppeteer.launch({ 
-                headless: 'new',
-                args: ['--no-sandbox', '--disable-setuid-sandbox']
-            });
-            const page = await browser.newPage();
-            
-            await page.setViewport({ width: 1200, height: 2000 });
-            
-            await page.setContent(html, {
-                waitUntil: 'networkidle0'
-            });
+//function to generate pdf
+async function generatePDF(html) {
+    try {
+        const browser = await puppeteer.launch({ 
+            headless: 'new',
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
+        const page = await browser.newPage();
+        await page.setViewport({ width: 1200, height: 2000 });
+        await page.setContent(html, { waitUntil: 'networkidle0' });
 
-            const pdfBuffer = await page.pdf({ 
-                format: "A4",
-                printBackground: true,
-                margin: {
-                    top: "20px",
-                    bottom: "20px",
-                    left: "20px",
-                    right: "20px"
-                },
-                preferCSSPageSize: true,
-                displayHeaderFooter: false
-            });
+        const pdfBuffer = await page.pdf({ 
+            format: "A4",
+            printBackground: true,
+            margin: {
+                top: "20px",
+                bottom: "20px",
+                left: "20px",
+                right: "20px"
+            },
+            preferCSSPageSize: true,
+            displayHeaderFooter: false
+        });
 
-            await browser.close();
-            return pdfBuffer;
-        } finally {
-            connection.release();
-        }
+        await browser.close();
+        return pdfBuffer;
     } catch (error) {
         console.error('Error generating PDF:', error.message);
         throw error;
     }
 }
-
+       
+    
 // Function to fetch and update results for all existing students
 async function processAllStudents() {
     try {
