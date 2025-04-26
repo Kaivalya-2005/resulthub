@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Search, Award, Download, Loader2 } from "lucide-react";
+import { endpoints } from "./config/api";
 
 function App() {
   const [rollNumber, setRollNumber] = useState("");
@@ -15,29 +16,39 @@ function App() {
     setResult(null);
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:5000/get-result", {
-        rollNumber,
-        motherName,
+      const response = await axios.post(endpoints.getResult, {
+        seatNumber: rollNumber,
+        motherName: motherName
       });
-      setResult(response.data);
+      
+      // Log the response to debug
+      console.log('API Response:', response.data);
+      
+      // Check if response has data
+      if (response.data && response.data.student) {
+        setResult({
+          studentName: response.data.student.student_name,
+          rollNumber: response.data.student.seat_number,
+          motherName: response.data.student.mother_name,
+          percentage: response.data.student.percentage,
+          division: response.data.student.division,
+          hasPdf: response.data.student.pdf_url ? true : false,
+          pdfUrl: response.data.student.pdf_url
+        });
+      } else {
+        setError("No result data found");
+      }
     } catch (err) {
-      const errorMessage = err.response?.data?.error || "An error occurred";
-      setError(
-        errorMessage === "Result not yet available"
-          ? "Your result is not yet available. Please check back later."
-          : "No record found or server error"
-      );
+      console.error('API Error:', err);
+      setError(err.response?.data?.error || "Failed to connect to server");
     } finally {
       setLoading(false);
     }
   };
 
   const downloadPdf = () => {
-    if (result?.rollNumber) {
-      window.open(
-        `http://localhost:5000/download-pdf/${result.rollNumber}`,
-        "_blank"
-      );
+    if (result?.pdfUrl) {
+      window.open(result.pdfUrl, "_blank");
     }
   };
 

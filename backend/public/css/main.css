@@ -1,315 +1,315 @@
 /* Space out content a bit */
 body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; 
-    font-weight: 400; 
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; 
+  font-weight: 400; 
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* Everything but the jumbo gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-right: 15px;
+  padding-left: 15px;
   
-  /* Everything but the jumbo gets side spacing for mobile first views */
-  .header,
-  .marketing,
-  .footer {
-    padding-right: 15px;
-    padding-left: 15px;
-    
-  }
-  
-  /* Custom page header */
-  .header {
-    border-bottom: 1px solid #00a5db;
-  }
-  /* Make the masthead heading the same height as the navigation */
-  
-  .statistics {
-    border-bottom: 1px solid #B8B8B8;
-    min-height: 35px;
-  }
-  .navborder {
-    border-bottom: 1px solid #00a5db;
-  }
-  
-  .logo{
-    padding-bottom: 30px;
-    text-align: center;
-  }
-  .logo img{ max-width: 15%; height: 100%;}
-  
-  .nic p{
-    font-size: .9em;
-  }
-  
-  .logo h1{
-    font-family: "Georgia", Serif;
-    font-weight: 400;
-    font-size: 1.7em;
-    padding-bottom: 19px;
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    display: inline-block;
-  }
-  .logo h3{
-      font-size:1.142em;
-      font-weight: 800;
-  }
-  .logo h5{
-      font-size:1.285em;
-      
-  }
-  
-  .cont h5{
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #00a5db;
+}
+/* Make the masthead heading the same height as the navigation */
+
+.statistics {
+  border-bottom: 1px solid #B8B8B8;
+  min-height: 35px;
+}
+.navborder {
+  border-bottom: 1px solid #00a5db;
+}
+
+.logo{
+  padding-bottom: 30px;
   text-align: center;
-  }
+}
+.logo img{ max-width: 15%; height: 100%;}
+
+.nic p{
+  font-size: .9em;
+}
+
+.logo h1{
+  font-family: "Georgia", Serif;
+  font-weight: 400;
+  font-size: 1.7em;
+  padding-bottom: 19px;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  display: inline-block;
+}
+.logo h3{
+	font-size:1.142em;
+	font-weight: 800;
+}
+.logo h5{
+	font-size:1.285em;
+	
+}
+
+.cont h5{
+text-align: center;
+}
+
+.cont{
+  margin-top: 45px;
+}
+
+.header nav{
+  background-color: transparent;
+  border: none;
+  text-align: center;
+}
+
+#topnav{
+  margin:0 auto;
+  float: none;
+}
+
+#topnavinner #topnavul{
+  float: none;
+  display: inline-block;
+  text-align: center;
+}
+.navbar-header{
+  text-align: center;
+}
+.navbar{
+  margin-bottom: 0px;
   
-  .cont{
-    margin-top: 45px;
-  }
+}
+
+.navbar-header .navbar-toggle{float: none;}
+
+.active > a{
+  background-color: transparent;
+  border-bottom: 1px solid #ccc;
+}
+
+.resultviewbtn{
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Custom page footer */
+
+.footer{
+  margin-top: 47px;
+  padding:15px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+  background-color: #eee;
+  text-align: center;
+}
+
+.btb{
+  position: relative;
+  z-index: 1;
+  text-align: justify;
+  margin-bottom: 20px;
+}
+.btb img{
+  float: left;
+}
+.btb p{
+  float: right;
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+
+/* Main marketing message and sign up button */
+.jumbo {
+  margin-top:30px;
+  padding-top: 55px;
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #eee;
+  height: 17rem;
   
-  .header nav{
-    background-color: transparent;
-    border: none;
-    text-align: center;
+}
+
+.jumbo h4{
+margin-top:23px;
+color:#428bca;
+}
+
+jumbo a:hover {
+  background-color: yellow;
+}
+
+.jumbo h2{
+  margin-top:10px;
+  font-size: 30px;
+  color:inherit;
   }
+
   
-  #topnav{
-    margin:0 auto;
-    float: none;
+
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing h3{
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  font-weight: 200;
+  text-transform: uppercase;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 730px;
   }
-  
-  #topnavinner #topnavul{
-    float: none;
-    display: inline-block;
-    text-align: center;
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing {
+    padding-right: 0;
+    padding-left: 0;
   }
-  .navbar-header{
-    text-align: center;
-  }
-  .navbar{
-    margin-bottom: 0px;
-    
-  }
-  
-  .navbar-header .navbar-toggle{float: none;}
-  
-  .active > a{
-    background-color: transparent;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .resultviewbtn{
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  /* Custom page footer */
   
   .footer{
-    margin-top: 47px;
-    padding:15px;
-    color: #777;
-    border-top: 1px solid #e5e5e5;
-    background-color: #eee;
-    text-align: center;
+  	padding:10px;
   }
-  
-  .btb{
-    position: relative;
-    z-index: 1;
-    text-align: justify;
+  /* Space out the masthead */
+  .header {
     margin-bottom: 20px;
   }
-  .btb img{
-    float: left;
-  }
-  .btb p{
-    float: right;
-  }
-  
-  .container-narrow > hr {
-    margin: 30px 0;
-  }
-  
-  
-  /* Main marketing message and sign up button */
-  .jumbo {
-    margin-top:30px;
-    padding-top: 55px;
+
+}
+.logo img {
+  display:none;
+}
+
+#container {
+  background-color: transparent;
+}
+
+/*Tripad wrote this/ Tripad.im / @_Tripad*/
+/*XS Screens */
+
+
+@media screen and (max-width: 767px) { 
+  .container {
+    min-width: 320px;
+  }  
+  .logo{
+    padding-bottom: 5px;
     text-align: center;
-    border-bottom: 1px solid #e5e5e5;
-    background-color: #eee;
-    height: 17rem;
-    
   }
-  
-  .jumbo h4{
-  margin-top:23px;
-  color:#428bca;
+  #imglogo {
+    display: none;
   }
-  
-  jumbo a:hover {
-    background-color: yellow;
+  .resultform {
+    margin-top:-11%;
   }
-  
-  .jumbo h2{
-    margin-top:10px;
-    font-size: 30px;
-    color:inherit;
-    }
-  
-    
-  
-  
-  /* Supporting marketing content */
-  .marketing {
-    margin: 40px 0;
+  #res {
+    margin-top:-10%;
   }
-  .marketing h3{
-    text-align: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-    font-weight: 200;
-    text-transform: uppercase;
+  #printdiv {
+    margin-top:-20%;
   }
-  .marketing p + h4 {
-    margin-top: 28px;
+  div#printlogo img{
+ max-width:100%;
+}
+  .logo h5{
+    font-size: 1em;
   }
-  
-  /* Responsive: Portrait tablets and up */
-  @media screen and (min-width: 768px) {
-    .container {
-      max-width: 730px;
-    }
-    /* Remove the padding we set earlier */
-    .header,
-    .marketing {
-      padding-right: 0;
-      padding-left: 0;
-    }
-    
-    .footer{
-        padding:10px;
-    }
-    /* Space out the masthead */
-    .header {
-      margin-bottom: 20px;
-    }
-  
+  .logo p{
+    font-size: 0.5em;
   }
   .logo img {
     display:none;
   }
-  
-  #container {
+  .logo h3{
+     font-size: 0.92em;
+     font-weight: 800;
+  }
+	.btb p {
+		float: none;
+		font-size: 12px;
+		text-align: center;
+	}  
+}
+
+
+@media  print and (max-width: 767px){
+	#printlogo{
+		text-align:center;
+		display:block!important;
+	}
+	.btb p {
+		float: none;
+		font-size: 12px;
+		text-align: center;
+	} 
+  #hscexamdiv * {
+    display:none;
+    
+  }
+ #hscexamdivout * {
+  margin-top: -1%;
+ }
+  #imglogo * {
+    align-self: left;
+    margin-top: -.1%;
+  }
+  #mhboardbanner * {
+    align-self: right;
+    margin-top: 0%;
+    background-color: transparent;
+    margin-left: 2%;
+  }
+  #examresicon * {
+    display:none;
+    
+  }
+  #printdiv * {
+    display:none;
+  }
+  #cardbody * {
+    margin-top: -10%;
     background-color: transparent;
   }
-  
-  /*Tripad wrote this/ Tripad.im / @_Tripad*/
-  /*XS Screens */
-  
-  
-  @media screen and (max-width: 767px) { 
-    .container {
-      min-width: 320px;
-    }  
-    .logo{
-      padding-bottom: 5px;
-      text-align: center;
-    }
-    #imglogo {
-      display: none;
-    }
-    .resultform {
-      margin-top:-11%;
-    }
-    #res {
-      margin-top:-10%;
-    }
-    #printdiv {
-      margin-top:-20%;
-    }
-    div#printlogo img{
-   max-width:100%;
+  #togglenav * {
+    display:none;
   }
-    .logo h5{
-      font-size: 1em;
-    }
-    .logo p{
-      font-size: 0.5em;
-    }
-    .logo img {
-      display:none;
-    }
-    .logo h3{
-       font-size: 0.92em;
-       font-weight: 800;
-    }
-      .btb p {
-          float: none;
-          font-size: 12px;
-          text-align: center;
-      }  
+  #table * {
+    margin-top: -7%;
   }
-  
-  
-  @media  print and (max-width: 767px){
-      #printlogo{
-          text-align:center;
-          display:block!important;
-      }
-      .btb p {
-          float: none;
-          font-size: 12px;
-          text-align: center;
-      } 
-    #hscexamdiv * {
-      display:none;
-      
-    }
-   #hscexamdivout * {
-    margin-top: -1%;
-   }
-    #imglogo * {
-      align-self: left;
-      margin-top: -.1%;
-    }
-    #mhboardbanner * {
-      align-self: right;
-      margin-top: 0%;
-      background-color: transparent;
-      margin-left: 2%;
-    }
-    #examresicon * {
-      display:none;
-      
-    }
-    #printdiv * {
-      display:none;
-    }
-    #cardbody * {
-      margin-top: -10%;
-      background-color: transparent;
-    }
-    #togglenav * {
-      display:none;
-    }
-    #table * {
-      margin-top: -7%;
-    }
-    #header {
-      border-bottom: none;
-    }
-    #movright {
-      margin-top: -5%;
-    }
-   
-    
+  #header {
+    border-bottom: none;
   }
-  
-  @media print{
-    
-    a[href]:after {
-      content: none !important;
-    }
+  #movright {
+    margin-top: -5%;
   }
+ 
+  
+}
+
+@media print{
+  
+  a[href]:after {
+    content: none !important;
+  }
+}
