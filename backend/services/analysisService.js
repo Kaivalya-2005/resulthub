@@ -81,8 +81,55 @@ async function getStudentResult(seat_number, mother_name) {
     }
 }
 
+// Get the top 10 students
+const getTopToppers = async () => {
+    try {
+      const [topToppers] = await db.execute(`
+        SELECT student_name, total_marks, percentage
+        FROM student_results
+        ORDER BY total_marks DESC
+        LIMIT 10
+      `);
+      return topToppers;
+    } catch (error) {
+      console.error('Error getting top 10 students:', error);
+      throw error;
+    }
+};
+
+// Function to get top 5 students for each subject
+const getSubjectwiseToppers = async () => {
+    try {
+      // Query to get top 5 students for each subject
+      const subjects = ['marathi', 'hindi', 'english', 'mathematics', 'science', 'social_science'];
+      let subjectwiseTopperData = [];
+  
+      for (let subject of subjects) {
+        const [topperData] = await db.execute(`
+          SELECT student_name, ${subject} AS marks
+          FROM student_results
+          ORDER BY ${subject} DESC
+          LIMIT 5
+        `);
+        
+        subjectwiseTopperData.push({
+          subject,
+          topStudents: topperData
+        });
+      }
+  
+      return subjectwiseTopperData;
+  
+    } catch (error) {
+      console.error('Error fetching subjectwise toppers:', error);
+      throw error;
+    }
+};
+
 module.exports = {
     getResultDistribution,
     compareStudents,
-    getStudentResult
+    getStudentResult,
+    getTopToppers,
+    getSubjectwiseToppers
 };

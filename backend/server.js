@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 const { fetchResultsFromSite } = require('./utils/fetchResults.js');  // Import your fetchResults function
 const { generateAndStorePDFs } = require('./services/pdfService.js'); // Import the PDF generation function
-const { getResultDistribution, compareStudents, getStudentResult } = require('./services/analysisService.js'); // Add this after other requires
+const { getResultDistribution, compareStudents, getStudentResult, getTopToppers, getSubjectwiseToppers} = require('./services/analysisService.js'); // Add this after other requires
 
 const app = express();
 
@@ -35,7 +35,7 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-// Show statistics of the results
+// API Route to show statistics distribution of the results
 app.get('/api/statistics/distribution', async (req, res) => {
     try {
         const distribution = await getResultDistribution();
@@ -46,7 +46,7 @@ app.get('/api/statistics/distribution', async (req, res) => {
     }
 });
 
-// Fetch results from the database and compare them
+// API Route to Fetch results from the database and compare them
 app.get('/api/compare-students', async (req, res) => {
     try {
         const { seat1, mother1, seat2, mother2 } = req.query;
@@ -63,7 +63,7 @@ app.get('/api/compare-students', async (req, res) => {
     }
 });
 
-// Route to fetch a single student's result
+// API Route to fetch a single student's result
 app.get('/api/fetch', async (req, res) => {
     try {
         const { seat_number, mother_name } = req.query;
@@ -82,6 +82,28 @@ app.get('/api/fetch', async (req, res) => {
     } catch (error) {
         console.error('Error getting student data:', error);
         res.status(500).json({ error: "Error getting student data" });
+    }
+});
+
+// API Route to fetch the top 10 students
+app.get('/api/statistics/toppers', async (req, res) => {
+    try {
+      const toppers = await getTopToppers();
+      res.json(toppers);
+    } catch (error) {
+      console.error('Error fetching toppers:', error);
+      res.status(500).json({ error: "Failed to fetch top 10 students" });
+    }
+});
+
+// API Route to get subjectwise toppers
+app.get('/api/statistics/subjectwise-toppers', async (req, res) => {
+    try {
+      const subjectwiseToppers = await getSubjectwiseToppers();
+      res.json(subjectwiseToppers);
+    } catch (error) {
+      console.error('Error fetching subjectwise toppers:', error);
+      res.status(500).json({ error: "Failed to fetch subjectwise toppers" });
     }
 });
 
