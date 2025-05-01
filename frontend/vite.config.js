@@ -4,14 +4,11 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ['lucide-react'],
+    include: ['react/jsx-runtime']  // 👈 important for proper React ESM imports
   },
   build: {
     commonjsOptions: {
-      include: [/lucide-react/],
-    },
-  },
-  resolve: {
-    dedupe: ['react', 'react-dom'],
-  },
+      transformMixedEsModules: true  // 👈 helps with some ESM/CJS mismatches
+    }
+  }
 })
