@@ -9,9 +9,11 @@ const { getResultDistribution, compareStudents, getStudentResult, getTopToppers,
 const app = express();
 
 // Middleware
+// Update CORS configuration
 app.use(cors({
-    origin: ['*'],
+    origin: ['http://localhost:5173'], // Add your frontend URL
     methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
     credentials: true
 }));
 app.use(bodyParser.json());

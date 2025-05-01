@@ -59,7 +59,7 @@ const generatePDF = async (student) => {
    
 						  </div>
 						  <div id="mhboardbannerin1" style="padding-left: 5%; margin-top:-6%;" class="logo col-lg-10 col-md-10 col-sm-10">
-							  <p style="font-size:1em;"><b>SSC Examination March- 2024 RESULT</b></p>
+							  <p style="font-size:1em;"><b>SSC Examination March- 2025 RESULT</b></p>
 						  </div>
 					  </div>
 				  </div>

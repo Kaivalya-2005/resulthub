@@ -85,9 +85,9 @@ async function getStudentResult(seat_number, mother_name) {
 const getTopToppers = async () => {
     try {
       const [topToppers] = await db.execute(`
-        SELECT student_name, total_marks, percentage
+        SELECT student_name, total_marks, percentage ,additional_marks
         FROM student_results
-        ORDER BY total_marks DESC
+        ORDER BY percentage DESC
         LIMIT 10
       `);
       return topToppers;

@@ -1,0 +1,23 @@
+import { DistributionData, Topper, SubjectToppersData } from '../types';
+
+const API_URL = 'http://localhost:5000/api';
+
+export const fetchDistribution = async (): Promise<DistributionData[]> => {
+  const response = await fetch(`${API_URL}/statistics/distribution`);
+  if (!response.ok) throw new Error('Failed to fetch distribution data');
+  return response.json();
+};
+
+export const fetchToppers = async (): Promise<Topper[]> => {
+  const response = await fetch(`${API_URL}/statistics/toppers`);
+  if (!response.ok) throw new Error('Failed to fetch toppers data');
+  return response.json();
+};
+
+export const fetchSubjectToppers = async (): Promise<SubjectToppersData[]> => {
+  const response = await fetch(`${API_URL}/statistics/subjectwise-toppers`);
+  console.log('Subject Toppers Data:', response);
+  if (!response.ok) throw new Error('Failed to fetch subject toppers data');
+  return response.json();
+
+};
