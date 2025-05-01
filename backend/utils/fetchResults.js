@@ -40,7 +40,7 @@ const fetchResultsFromSite = async () => {
 
         // Extract total_marks from the "Total Marks" row
         const totalMarksText = $('td:contains("Total Marks")').next().text().trim();
-        const totalMarksMatch = totalMarksText.match(/(\d+)\+/);  // Capture number before "+"
+        const totalMarksMatch = totalMarksText.match(/(\d+)(?:\+|$)/);  // Capture number before "+" or end of string
         const totalMarks = totalMarksMatch ? parseInt(totalMarksMatch[1]) : 0;
 
         // Extract percentage from the "Percentage" row
