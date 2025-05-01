@@ -11,7 +11,7 @@ const app = express();
 // Middleware
 // Update CORS configuration
 app.use(cors({
-    origin: ['http://localhost:5173'], // Add your frontend URL
+    origin: '*', // Add your frontend URL
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
     credentials: true
