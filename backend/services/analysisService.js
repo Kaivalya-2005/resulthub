@@ -126,10 +126,40 @@ const getSubjectwiseToppers = async () => {
     }
 };
 
+const getSubjectDistribution = async (subject) => {
+  const validSubjects = ['english', 'marathi', 'hindi', 'mathematics', 'science', 'social_science'];
+  
+  if (!validSubjects.includes(subject)) {
+    throw new Error('Invalid subject');
+  }
+
+  const results = await db.query(
+    `SELECT ${subject} as marks FROM student_results WHERE ${subject} IS NOT NULL`
+  );
+
+  const distribution = {
+    excellent: 0, // 75-100
+    good: 0,      // 60-74
+    average: 0,   // 35-59
+    poor: 0       // 0-34
+  };
+
+  results[0].forEach(row => {
+    const marks = parseInt(row.marks);
+    if (marks >= 75) distribution.excellent++;
+    else if (marks >= 60) distribution.good++;
+    else if (marks >= 35) distribution.average++;
+    else distribution.poor++;
+  });
+
+  return distribution;
+};
+
 module.exports = {
     getResultDistribution,
     compareStudents,
     getStudentResult,
     getTopToppers,
-    getSubjectwiseToppers
+    getSubjectwiseToppers,
+    getSubjectDistribution
 };

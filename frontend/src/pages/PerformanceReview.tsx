@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { DistributionData, Topper, Subject, SubjectToppersData } from '../types';
-import { fetchDistribution, fetchToppers, fetchSubjectToppers } from '../services/api';
+import { DistributionData, Topper, Subject, SubjectToppersData, SubjectDistribution } from '../types';
+import { fetchDistribution, fetchToppers, fetchSubjectToppers, fetchSubjectDistribution } from '../services/api';
 import DistributionChart from '../components/charts/DistributionChart';
 import ToppersList from '../components/results/ToppersList';
 import SubjectToppersList from '../components/results/SubjectToppersList';
+import SubjectDistributionChart from '../components/charts/SubjectDistributionChart';
 
 const subjects: Subject[] = [
   { id: 'english', name: 'English' },
@@ -20,6 +21,7 @@ const PerformanceReview = () => {
   const [distribution, setDistribution] = useState<DistributionData[]>([]);
   const [toppers, setToppers] = useState<Topper[]>([]);
   const [subjectToppers, setSubjectToppers] = useState<SubjectToppersData[]>([]);
+  const [subjectDistribution, setSubjectDistribution] = useState<SubjectDistribution | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,6 +46,21 @@ const PerformanceReview = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchSubjectData = async () => {
+      try {
+        const distribution = await fetchSubjectDistribution(activeSubject);
+        setSubjectDistribution(distribution);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch subject distribution');
+      }
+    };
+
+    if (activeSubject) {
+      fetchSubjectData();
+    }
+  }, [activeSubject]);
 
   const getCurrentSubjectToppers = () => {
     const subjectData = subjectToppers.find(
@@ -128,10 +145,18 @@ const PerformanceReview = () => {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <SubjectToppersList 
-                  subject={subjects.find(s => s.id === activeSubject)?.name || ''} 
-                  toppers={getCurrentSubjectToppers()} 
-                />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                  <SubjectToppersList 
+                    subject={subjects.find(s => s.id === activeSubject)?.name || ''} 
+                    toppers={getCurrentSubjectToppers()} 
+                  />
+                  {subjectDistribution && (
+                    <SubjectDistributionChart
+                      subject={subjects.find(s => s.id === activeSubject)?.name || ''}
+                      distribution={subjectDistribution}
+                    />
+                  )}
+                </div>
               </motion.div>
             )}
           </div>

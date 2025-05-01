@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 const { fetchResultsFromSite } = require('./utils/fetchResults.js');  // Import your fetchResults function
 const { generateAndStorePDFs } = require('./services/pdfService.js'); // Import the PDF generation function
-const { getResultDistribution, compareStudents, getStudentResult, getTopToppers, getSubjectwiseToppers} = require('./services/analysisService.js'); // Add this after other requires
+const { getResultDistribution, compareStudents, getStudentResult, getTopToppers, getSubjectwiseToppers, getSubjectDistribution } = require('./services/analysisService.js'); // Add this after other requires
 
 const app = express();
 
@@ -106,6 +106,19 @@ app.get('/api/statistics/subjectwise-toppers', async (req, res) => {
     } catch (error) {
       console.error('Error fetching subjectwise toppers:', error);
       res.status(500).json({ error: "Failed to fetch subjectwise toppers" });
+    }
+});
+
+// API Route to get subject-wise distribution
+app.get('/api/statistics/subject-distribution/:subject', async (req, res) => {
+    try {
+        const { subject } = req.params;
+        const distribution = await getSubjectDistribution(subject);
+        res.json(distribution);
+    } catch (error) {
+        console.error('Error fetching subject distribution:', error);
+        res.status(error.message === 'Invalid subject' ? 400 : 500)
+            .json({ error: error.message || "Failed to fetch subject distribution" });
     }
 });
 

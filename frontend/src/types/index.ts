@@ -48,3 +48,10 @@ export interface SubjectToppersData {
   subject: string;
   topStudents: SubjectTopper[];
 }
+
+export interface SubjectDistribution {
+  excellent: number;
+  good: number;
+  average: number;
+  poor: number;
+}
