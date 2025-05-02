@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Eye } from 'lucide-react';
+import jsPDF from 'jspdf';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 
@@ -27,7 +28,54 @@ const ResultCard = ({ student }: ResultCardProps) => {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleDownload = () => {
-    window.open(student.pdf_url, '_blank');
+    const doc = new jsPDF();
+    let y = 20;
+
+    doc.setFontSize(14);
+    doc.text('SSC Result 2024::MSBSHSE, PUNE', 14, y); y += 10;
+
+    doc.setFontSize(12);
+    doc.text('MAHARASHTRA STATE BOARD OF SECONDARY AND HIGHER SECONDARY EDUCATION, PUNE', 14, y); y += 8;
+    doc.text('SSC Examination March - 2024', 14, y); y += 10;
+    doc.setFontSize(13);
+    doc.text('RESULT', 14, y); y += 10;
+
+    doc.setFontSize(12);
+    doc.text('Subjects', 14, y); y += 6;
+    doc.text('Code   Subject Name         Marks Obtained', 14, y); y += 6;
+
+    const subjectList = [
+      { code: '01', name: 'Marathi', marks: student.marathi },
+      { code: '15', name: 'Hindi', marks: student.hindi },
+      { code: '16', name: 'English', marks: student.english },
+      { code: '71', name: 'Mathematics', marks: student.mathematics },
+      { code: '72', name: 'Science', marks: student.science },
+      { code: '73', name: 'Social Science', marks: student.social_science },
+    ];
+
+    subjectList.forEach(subject => {
+      doc.text(`${subject.code}     ${subject.name.padEnd(20)} ${String(subject.marks).padStart(3, '0')}`, 14, y);
+      y += 6;
+    });
+
+    if (student.additional_marks > 0) {
+      doc.text(`      Additional Marks         ${student.additional_marks}`, 14, y); y += 6;
+    }
+
+    y += 4;
+    doc.text(`Total: ${student.total_marks}${student.additional_marks > 0 ? ` +${student.additional_marks}` : ''}/500`, 14, y); y += 6;
+    doc.text(`Percentage: ${student.percentage}%`, 14, y); y += 6;
+    doc.text(`Result: ${student.result_status}`, 14, y); y += 10;
+
+    doc.text(`Candidate Name: ${student.student_name}`, 14, y); y += 6;
+    doc.text(`Mother's Name: ${student.mother_name}`, 14, y); y += 6;
+    doc.text(`Seat Number: ${student.seat_number}`, 14, y); y += 6;
+
+    doc.setFontSize(9);
+    y += 8;
+    doc.text('Disclaimer: Results on net are for immediate info only. Verify from original mark sheet.', 14, y);
+
+    doc.save(`${student.seat_number}_result.pdf`);
   };
 
   const subjects = [
@@ -44,7 +92,6 @@ const ResultCard = ({ student }: ResultCardProps) => {
       <div className="p-6">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6">
           <div>
-            {/* <h2 className="text-2xl font-bold text-gray-800">{student.name}</h2> */}
             <p className="text-gray-600">Seat Number: {student.seat_number}</p> 
             <p className="text-gray-600">Candidate Name: {student.student_name}</p>
             <p className="text-gray-600">Mother's Name: {student.mother_name}</p>
@@ -58,16 +105,14 @@ const ResultCard = ({ student }: ResultCardProps) => {
               </span>
             </p>
             <p className="text-lg font-medium">
-              Percentage:{' '}
-              <span className="font-bold">{student.percentage}%</span>
+              Percentage: <span className="font-bold">{student.percentage}%</span>
             </p>
           </div>
         </div>
 
         <div className="flex justify-between items-center mb-6">
           <p className="text-lg">
-            Status:{' '}
-            <span className={`font-bold ${
+            Status: <span className={`font-bold ${
               student.result_status === 'PASS' ? 'text-green-600' : 'text-red-600'
             }`}>
               {student.result_status}

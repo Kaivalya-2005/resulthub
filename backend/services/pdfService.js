@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer-core');
+// const puppeteer = require('puppeteer-core');
 const { Storage } = require('@google-cloud/storage');
 const db = require('../models/db');
 require('dotenv').config();

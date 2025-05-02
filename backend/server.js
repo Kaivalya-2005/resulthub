@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const db = require('./models/db.js'); // Import your database connection
 const { startPollingUntilSuccess } = require('./utils/fetchResults.js');  // Import your fetchResults function
-const { generateAndStorePDFs } = require('./services/pdfService.js'); // Import the PDF generation function
+//const { generateAndStorePDFs } = require('./services/pdfService.js'); // Import the PDF generation function
 const { getResultDistribution, compareStudents, getStudentResult, getTopToppers, getSubjectwiseToppers, getSubjectDistribution } = require('./services/analysisService.js'); // Add this after other requires
 
 const app = express();
@@ -23,8 +23,8 @@ app.use(bodyParser.json());
   try {
     await startPollingUntilSuccess();
 
-    await generateAndStorePDFs();
-    console.log('✅ PDFs generated and uploaded successfully');
+    //await generateAndStorePDFs();
+    //console.log('✅ PDFs generated and uploaded successfully');
   } catch (error) {
     console.error('❌ Error during startup:', error.message);
   }
