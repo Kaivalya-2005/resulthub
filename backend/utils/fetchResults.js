@@ -2,6 +2,29 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const db = require('../models/db');
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const startPollingUntilSuccess = async () => {
+  const maxAttempts = 1000;
+  let attempt = 0;
+
+  while (attempt < maxAttempts) {
+    try {
+      console.log(`🔄 Attempt ${attempt + 1}: Checking if result site is live...`);
+      await fetchResultsFromSite();
+      console.log("✅ Result site is live and results have been fetched.");
+      break; // Exit loop if successful
+    } catch (err) {
+      console.log(`⚠️ Site not live yet or failed to fetch: ${err.message}`);
+      await sleep(15000); // Wait 15 seconds before retrying
+      attempt++;
+    }
+  }
+
+  if (attempt === maxAttempts) {
+    console.log("❌ Max attempts reached. Site still not live.");
+  }
+};
 
 const fetchResultsFromSite = async () => {
   const url = 'https://mahresult.nic.in/sscmarch2024/sscresultviewmarch24.asp';
@@ -113,4 +136,4 @@ const fetchResultsFromSite = async () => {
   }
 };
 
-module.exports = { fetchResultsFromSite };
+module.exports = { startPollingUntilSuccess };

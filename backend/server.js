@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const { fetchResultsFromSite } = require('./utils/fetchResults.js');  // Import your fetchResults function
+const { startPollingUntilSuccess } = require('./utils/fetchResults.js');  // Import your fetchResults function
 const { generateAndStorePDFs } = require('./services/pdfService.js'); // Import the PDF generation function
 const { getResultDistribution, compareStudents, getStudentResult, getTopToppers, getSubjectwiseToppers, getSubjectDistribution } = require('./services/analysisService.js'); // Add this after other requires
 
@@ -21,8 +21,7 @@ app.use(bodyParser.json());
 // Automatically fetch results and generate PDFs when server starts
 (async () => {
   try {
-    await fetchResultsFromSite();
-    console.log('✅ Results fetched and stored in DB successfully');
+    await startPollingUntilSuccess();
 
     await generateAndStorePDFs();
     console.log('✅ PDFs generated and uploaded successfully');
