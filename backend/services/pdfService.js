@@ -17,7 +17,6 @@ const bucket = storage.bucket(bucketName);
 // Function to generate the PDF using Puppeteer 
 const generatePDF = async (student) => {
 	const browser = await puppeteer.launch({
-		executablePath: '/usr/bin/chromium',
 		headless: true,
 		args: ['--no-sandbox', '--disable-setuid-sandbox']
 	});
