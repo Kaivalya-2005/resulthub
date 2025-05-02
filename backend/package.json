@@ -12,13 +12,14 @@
     "jspdf": "^3.0.1",
     "mysql2": "^3.14.0",
     "pdfkit": "^0.17.0",
-    "puppeteer": "^24.7.2",
+    "puppeteer": "^24.8.0",
     "uuid": "^11.1.0"
   },
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "postinstall": "npx puppeteer browsers install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },

@@ -284,13 +284,20 @@ const generatePDF = async (student) => {
 
   await page.setContent(html, { waitUntil: "networkidle0" });
 
-  // Generate PDF as buffer
-  const pdfBuffer = await page.pdf({ format: "A4", printBackground: true, margin: {
-    top: '20px',
-    bottom: '20px',
-    left: '20px',
-    right: '20px',
-  }});
+//   // Generate PDF as buffer
+//   const pdfBuffer = await page.pdf({ format: "A4", printBackground: true, margin: {
+//     top: '20px',
+//     bottom: '20px',
+//     left: '20px',
+//     right: '20px',
+//   }});
+
+    // Generate PDF
+    await page.pdf({
+        path: `./results/${student.seat_number}_result.pdf`,
+        format: 'A4',
+        printBackground: true,
+    });
 // Helper function to convert an image to base64
 async function getBase64Image(imgPath) {
     const fs = require('fs');
