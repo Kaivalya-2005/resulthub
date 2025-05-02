@@ -25,8 +25,8 @@ const generatePDF = async (student) => {
             '--disable-gpu'
 		],
 		executablePath: process.env.NODE_ENV === 'production' 
-            ? process.env.PUPPETEER_EXECUTABLE_PATH 
-            : puppeteer.executablePath()
+            ? '/usr/bin/google-chrome'
+            : process.env.PUPPETEER_EXECUTABLE_PATH || undefined
 	});
 	const page = await browser.newPage();
 
