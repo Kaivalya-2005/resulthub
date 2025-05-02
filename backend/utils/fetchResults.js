@@ -13,7 +13,17 @@ const fetchResultsFromSite = async () => {
     "Referer": "https://mahresult.nic.in/sscmarch2024/sscmarch2024.htm"
   };
 
-  const [students] = await db.query('SELECT seat_number, mother_name FROM student_results');
+   // Only fetch students whose total_marks is null or 0
+  const [students] = await db.query(`
+    SELECT seat_number, mother_name 
+    FROM student_results 
+    WHERE total_marks IS NULL 
+  `);
+  
+  if (students.length === 0) {
+    console.log('✅ All student results already fetched.');
+    return;
+  }
 
   const getMarksSafely = ($, subjectName) => {
     const td = $(`td:contains("${subjectName}")`).filter(function () {

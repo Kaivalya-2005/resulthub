@@ -356,8 +356,17 @@ const updatePDFUrlInDb = async (seatNumber, pdfUrl) => {
 // Main function to generate PDF for all students and upload them
 const generateAndStorePDFs = async () => {
 	try {
-	  const [students] = await db.query('SELECT * FROM student_results');
-  
+	  //const [students] = await db.query('SELECT * FROM student_results');
+	  const [students] = await db.query(`
+		SELECT * 
+		FROM student_results 
+		WHERE total_marks IS NULL
+	  `);
+	
+	  if (students.length === 0) {
+		console.log('✅ All student results already fetched.');
+		return;
+	  }
 	  // If you expect a large number of students, consider processing in batches.
 	  for (let student of students) {
 		try {
