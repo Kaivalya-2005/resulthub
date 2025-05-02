@@ -16,7 +16,18 @@ const bucket = storage.bucket(bucketName);
 
 // Function to generate the PDF using Puppeteer 
 const generatePDF = async (student) => {
-	const browser = await puppeteer.launch({ headless: false });
+	const browser = await puppeteer.launch({ 
+		headless: 'new',
+		args:[
+			'--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu'
+		],
+		executablePath: process.env.NODE_ENV === 'production' 
+            ? process.env.PUPPETEER_EXECUTABLE_PATH 
+            : puppeteer.executablePath()
+	});
 	const page = await browser.newPage();
 
 	const bootstrapCSS = fs.readFileSync(path.resolve(__dirname, '../public/css/bootstrap.min.css'), 'utf-8');
