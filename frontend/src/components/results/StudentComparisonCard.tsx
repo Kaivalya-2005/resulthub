@@ -70,7 +70,7 @@ const StudentComparisonCard = ({ student1, student2 }: StudentComparisonCardProp
             <tr className="font-bold">
               <td className="py-2">Percentage</td>
               <td className={`text-right py-2 ${getComparisonData(student.percentage, otherStudent.percentage).color}`}>
-                {student.percentage.toFixed(2)}%
+                {student.percentage}%
               </td>
               <td className={`text-center ${getComparisonData(student.percentage, otherStudent.percentage).color}`}>
                 {getComparisonData(student.percentage, otherStudent.percentage).icon}

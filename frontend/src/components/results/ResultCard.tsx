@@ -59,7 +59,7 @@ const ResultCard = ({ student }: ResultCardProps) => {
             </p>
             <p className="text-lg font-medium">
               Percentage:{' '}
-              <span className="font-bold">{student.percentage.toFixed(2)}%</span>
+              <span className="font-bold">{student.percentage}%</span>
             </p>
           </div>
         </div>
