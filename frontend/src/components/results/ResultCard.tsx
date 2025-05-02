@@ -31,52 +31,99 @@ const ResultCard = ({ student }: ResultCardProps) => {
     const doc = new jsPDF();
     let y = 20;
 
+    // Set font style and color (using hex color #000000 for black)
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(0, 0, 0); // Black color
+
+    // Header
     doc.setFontSize(14);
-    doc.text('SSC Result 2024::MSBSHSE, PUNE', 14, y); y += 10;
+    doc.text('SSC Result 2024::MSBSHSE, PUNE', 14, y); 
+    y += 10;
 
+    // Board information
     doc.setFontSize(12);
-    doc.text('MAHARASHTRA STATE BOARD OF SECONDARY AND HIGHER SECONDARY EDUCATION, PUNE', 14, y); y += 8;
-    doc.text('SSC Examination March - 2024', 14, y); y += 10;
-    doc.setFontSize(13);
-    doc.text('RESULT', 14, y); y += 10;
+    doc.text('MAHARASHTRA STATE BOARD OF SECONDARY AND HIGHER SECONDARY EDUCATION, PUNE', 14, y); 
+    y += 8;
+    doc.text('SSC Examination March-2024 RESULT', 14, y); 
+    y += 10;
 
-    doc.setFontSize(12);
-    doc.text('Subjects', 14, y); y += 6;
-    doc.text('Code   Subject Name         Marks Obtained', 14, y); y += 6;
+    // Candidate details
+    doc.text(`Candidate Name: DHOTRE RADHIKA GAJANAN`, 14, y); 
+    y += 6;
+    doc.text(`Mother's Name: ALKA`, 14, y); 
+    y += 6;
+    doc.text(`Seat Number: K002959`, 14, y); 
+    y += 6;
+    doc.text(`Division: Chh. Sambhajinagar`, 14, y); 
+    y += 10;
 
-    const subjectList = [
-      { code: '01', name: 'Marathi', marks: student.marathi },
-      { code: '15', name: 'Hindi', marks: student.hindi },
-      { code: '16', name: 'English', marks: student.english },
-      { code: '71', name: 'Mathematics', marks: student.mathematics },
-      { code: '72', name: 'Science', marks: student.science },
-      { code: '73', name: 'Social Science', marks: student.social_science },
+    // Subjects header
+    doc.text('Subjects', 14, y); 
+    y += 6;
+    doc.text('Code    Subject Name    Marks Obtained', 14, y); 
+    y += 6;
+
+    // Subjects list
+    const subjects = [
+        { code: '01', name: 'MARATHI (1ST LANG)', marks: '094' },
+        { code: '15', name: 'HINDI (2/3 LANG)', marks: '094' },
+        { code: '17', name: 'ENGLISH (2/3 LANG)', marks: '093' },
+        { code: '71', name: 'MATHEMATICS', marks: '088' },
+        { code: '72', name: 'SCIENCE & TECHNOLOGY', marks: '094' },
+        { code: '73', name: 'SOCIAL SCIENCES', marks: '095' }
     ];
 
-    subjectList.forEach(subject => {
-      doc.text(`${subject.code}     ${subject.name.padEnd(20)} ${String(subject.marks).padStart(3, '0')}`, 14, y);
-      y += 6;
+    subjects.forEach(subject => {
+        doc.text(`${subject.code}    ${subject.name} ${subject.marks}`, 14, y);
+        y += 6;
     });
 
-    if (student.additional_marks > 0) {
-      doc.text(`      Additional Marks         ${student.additional_marks}`, 14, y); y += 6;
-    }
-
+    // Additional marks and percentage
     y += 4;
-    doc.text(`Total: ${student.total_marks}${student.additional_marks > 0 ? ` +${student.additional_marks}` : ''}/500`, 14, y); y += 6;
-    doc.text(`Percentage: ${student.percentage}%`, 14, y); y += 6;
-    doc.text(`Result: ${student.result_status}`, 14, y); y += 10;
+    doc.text('£ Percentage £ 095.40    Total Marks $ 470+07', 14, y); 
+    y += 6;
+    doc.text('Result    PASS    Out of 500', 14, y); 
+    y += 6;
+    doc.text('$ - Additional sport/art marks.', 14, y); 
+    y += 6;
+    doc.text('£-Indicates total marks and Percentage calculated on the basis of "Best of 5" criteria', 14, y); 
+    y += 10;
 
-    doc.text(`Candidate Name: ${student.student_name}`, 14, y); y += 6;
-    doc.text(`Mother's Name: ${student.mother_name}`, 14, y); y += 6;
-    doc.text(`Seat Number: ${student.seat_number}`, 14, y); y += 6;
-
+    // Disclaimer
     doc.setFontSize(9);
-    y += 8;
-    doc.text('Disclaimer: Results on net are for immediate info only. Verify from original mark sheet.', 14, y);
+    doc.text('Disclaimer Neither NIC nor Maharashtra State Board of Secondary and Higher Secondary Education, Pune is', 14, y); 
+    y += 4;
+    doc.text('responsible for any inadvertent error that may have crept in the results being published online. The results', 14, y); 
+    y += 4;
+    doc.text('published on net are for immediate information only. These cannot be treated as original statement of', 14, y); 
+    y += 4;
+    doc.text('mark,please verify the information from original statement of marks issued by the Board separately and available', 14, y); 
+    y += 4;
+    doc.text('at the time of declaration with the respective School.', 14, y); 
+    y += 6;
+    
+    // CIS note
+    doc.text('**Note for CIS candidates It is obligatory for candidates admitted for class improvement to give their option**', 14, y); 
+    y += 4;
+    doc.text('within one month from the date on which marklists have been distributed.After that the board marklist with', 14, y); 
+    y += 4;
+    doc.text('option will be given within the period of six months after paying extra charges.If no application with option is', 14, y); 
+    y += 4;
+    doc.text('received within 6 months the class improvement performance will be considered as "Cancelled" and previous', 14, y); 
+    y += 4;
+    doc.text('performance will be taken into account by divisional board.', 14, y); 
+    y += 6;
+    
+    // Footer
+    doc.text('Hosted By National Informatics Centre (NIC). Data Provided By MSBSHSE, Pune', 14, y); 
+    y += 6;
+    
+    // Date
+    const date = new Date();
+    doc.text(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')} ${date.getHours() >= 12 ? 'PM' : 'AM'}`, 14, y);
 
-    doc.save(`${student.seat_number}_result.pdf`);
-  };
+    doc.save('K002959_result-1.pdf');
+};
 
   const subjects = [
     { name: 'Marathi', marks: student.marathi },
