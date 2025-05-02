@@ -18,11 +18,13 @@ const bucket = storage.bucket(bucketName);
 const generatePDF = async (student) => {
 	const browser = await puppeteer.launch({ 
 		headless: 'new',
-		args:[
+		args: [
 			'--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
-            '--disable-gpu'
+            '--disable-gpu',
+            '--disable-dev-shm-usage',
+            `--disk-cache-dir=${process.env.PUPPETEER_CACHE_DIR || '/tmp/puppeteer'}`
 		],
 		executablePath: process.env.NODE_ENV === 'production' 
             ? '/usr/bin/google-chrome'
