@@ -10,6 +10,7 @@ interface ResultCardProps {
     seat_number: string;
     student_name: string;
     mother_name: string;
+    division: string;
     marathi: number;
     hindi: number;
     english: number;
@@ -27,17 +28,23 @@ interface ResultCardProps {
 const ResultCard = ({ student }: ResultCardProps) => {
   const [showDetails, setShowDetails] = useState(false);
 
+  const formatMark = (mark: number) => {
+    return mark.toString().padStart(3, '0');
+  };
+
   const handleDownload = () => {
     const doc = new jsPDF();
     let y = 20;
 
-    // Set font style and color (using hex color #000000 for black)
+    // Set font style and color
     doc.setFont("helvetica", "normal");
     doc.setTextColor(0, 0, 0); // Black color
 
-    // Header
+    // Header with URL
     doc.setFontSize(14);
-    doc.text('SSC Result 2024::MSBSHSE, PUNE', 14, y); 
+    doc.setTextColor(0, 0, 255); // Blue color for URL
+    doc.textWithLink('SSC Result 2024::MSBSHSE, PUNE', 14, y, { url: 'https://mahresult.nic.in/sscmarch2024/sscresultviewmarch24.asp' });
+    doc.setTextColor(0, 0, 0); // Reset to black
     y += 10;
 
     // Board information
@@ -48,42 +55,53 @@ const ResultCard = ({ student }: ResultCardProps) => {
     y += 10;
 
     // Candidate details
-    doc.text(`Candidate Name: DHOTRE RADHIKA GAJANAN`, 14, y); 
+    doc.text(`Candidate Name: ${student.student_name.toUpperCase()}`, 14, y); 
     y += 6;
-    doc.text(`Mother's Name: ALKA`, 14, y); 
+    doc.text(`Mother's Name: ${student.mother_name.toUpperCase()}`, 14, y); 
     y += 6;
-    doc.text(`Seat Number: K002959`, 14, y); 
+    doc.text(`Seat Number: ${student.seat_number.toUpperCase()}`, 14, y); 
     y += 6;
-    doc.text(`Division: Chh. Sambhajinagar`, 14, y); 
+    doc.text(`Division: ${student.division}`, 14, y); 
     y += 10;
 
     // Subjects header
+    doc.setFontSize(12);
     doc.text('Subjects', 14, y); 
     y += 6;
-    doc.text('Code    Subject Name    Marks Obtained', 14, y); 
+    
+    // Table header
+    doc.setFontSize(10);
+    doc.text('Code    Subject Name               Marks Obtained', 14, y);
     y += 6;
+    
+    // Horizontal line
+    doc.line(14, y, 200, y);
+    y += 4;
 
-    // Subjects list
+    // Subjects list - using dynamic data from props
     const subjects = [
-        { code: '01', name: 'MARATHI (1ST LANG)', marks: '094' },
-        { code: '15', name: 'HINDI (2/3 LANG)', marks: '094' },
-        { code: '17', name: 'ENGLISH (2/3 LANG)', marks: '093' },
-        { code: '71', name: 'MATHEMATICS', marks: '088' },
-        { code: '72', name: 'SCIENCE & TECHNOLOGY', marks: '094' },
-        { code: '73', name: 'SOCIAL SCIENCES', marks: '095' }
+      { code: '01', name: 'MARATHI (1ST LANG)', marks: formatMark(student.marathi) },
+      { code: '15', name: 'HINDI (2/3 LANG)', marks: formatMark(student.hindi) },
+      { code: '17', name: 'ENGLISH (2/3 LANG)', marks: formatMark(student.english) },
+      { code: '71', name: 'MATHEMATICS', marks: formatMark(student.mathematics) },
+      { code: '72', name: 'SCIENCE & TECHNOLOGY', marks: formatMark(student.science) },
+      { code: '73', name: 'SOCIAL SCIENCES', marks: formatMark(student.social_science) }
     ];
 
+    // Table rows
     subjects.forEach(subject => {
-        doc.text(`${subject.code}    ${subject.name} ${subject.marks}`, 14, y);
-        y += 6;
+      doc.text(`${subject.code}    ${subject.name.padEnd(25, ' ')} ${subject.marks}`, 14, y);
+      y += 6;
     });
 
-    // Additional marks and percentage
-    y += 4;
-    doc.text('£ Percentage £ 095.40    Total Marks $ 470+07', 14, y); 
+    // Summary section
     y += 6;
-    doc.text('Result    PASS    Out of 500', 14, y); 
-    y += 6;
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0); // Black for symbols
+    doc.text(`£ Percentage £ ${student.percentage.toFixed(2).padStart(6, '0')}    Total Marks $ ${student.total_marks - student.additional_marks}+${student.additional_marks}`, 14, y); 
+    y += 8;
+    doc.text(`Result    ${student.result_status}    Out of 500`, 14, y); 
+    y += 8;
     doc.text('$ - Additional sport/art marks.', 14, y); 
     y += 6;
     doc.text('£-Indicates total marks and Percentage calculated on the basis of "Best of 5" criteria', 14, y); 
@@ -103,7 +121,9 @@ const ResultCard = ({ student }: ResultCardProps) => {
     y += 6;
     
     // CIS note
-    doc.text('**Note for CIS candidates It is obligatory for candidates admitted for class improvement to give their option**', 14, y); 
+    doc.setFontSize(10);
+    doc.setTextColor(255, 0, 0); // Red color for note
+    doc.text('*Note for CIS candidates It is obligatory for candidates admitted for class improvement to give their option*', 14, y); 
     y += 4;
     doc.text('within one month from the date on which marklists have been distributed.After that the board marklist with', 14, y); 
     y += 4;
@@ -115,15 +135,18 @@ const ResultCard = ({ student }: ResultCardProps) => {
     y += 6;
     
     // Footer
+    doc.setTextColor(0, 0, 0); // Black color
+    doc.setFontSize(10);
     doc.text('Hosted By National Informatics Centre (NIC). Data Provided By MSBSHSE, Pune', 14, y); 
     y += 6;
     
     // Date
     const date = new Date();
+    doc.setTextColor(100, 100, 100); // Gray color for date
     doc.text(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')} ${date.getHours() >= 12 ? 'PM' : 'AM'}`, 14, y);
 
-    doc.save('K002959_result-1.pdf');
-};
+    doc.save(`${student.seat_number}_result.pdf`);
+  };
 
   const subjects = [
     { name: 'Marathi', marks: student.marathi },
