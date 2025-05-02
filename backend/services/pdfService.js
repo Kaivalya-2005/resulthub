@@ -360,7 +360,7 @@ const generateAndStorePDFs = async () => {
 	  const [students] = await db.query(`
 		SELECT * 
 		FROM student_results 
-		WHERE total_marks IS NULL
+		WHERE total_marks IS NOT NULL AND pdf_url IS NULL
 	  `);
 	
 	  if (students.length === 0) {
