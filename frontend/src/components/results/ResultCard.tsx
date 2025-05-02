@@ -98,7 +98,7 @@ const ResultCard = ({ student }: ResultCardProps) => {
     y += 6;
     doc.setFontSize(12);
     doc.setTextColor(0, 0, 0); // Black for symbols
-    doc.text(`£ Percentage £ ${student.percentage.toFixed(2).padStart(6, '0')}    Total Marks $ ${student.total_marks - student.additional_marks}+${student.additional_marks}`, 14, y); 
+    doc.text(`£ Percentage £ ${student.percentage}    Total Marks $ ${student.total_marks - student.additional_marks}+${student.additional_marks}`, 14, y); 
     y += 8;
     doc.text(`Result    ${student.result_status}    Out of 500`, 14, y); 
     y += 8;
