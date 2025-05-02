@@ -1,3 +1,5 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Search, AlertCircle } from 'lucide-react';
@@ -44,7 +46,7 @@ const Home = () => {
     setIsSearching(true);
     
     try {
-      const response = await axios.get('http://localhost:5000/api/fetch', {
+      const response = await axios.get(`${API_URL}/api/fetch`, {
         params: {
           seat_number: seatNumber,
           mother_name: motherName

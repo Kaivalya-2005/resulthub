@@ -1,3 +1,4 @@
+const API_URL = import.meta.env.VITE_API_URL;
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { AlertCircle } from 'lucide-react';
@@ -36,7 +37,7 @@ const CompareResults = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/compare-students?seat1=${seatNumber1}&mother1=${motherName1}&seat2=${seatNumber2}&mother2=${motherName2}`
+        `${API_URL}/api/compare-students?seat1=${seatNumber1}&mother1=${motherName1}&seat2=${seatNumber2}&mother2=${motherName2}`
       );
 
       if (!response.ok) {
