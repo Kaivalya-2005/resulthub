@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { createRoot } from 'react-dom/client';
 import { motion } from 'framer-motion';
 import { Download, Eye } from 'lucide-react';
-import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
+import bootstrapStyles from '../../styles/bootstrap.min.css';
+import mainStyles from '../../styles/main.css';
+
+import mahastatuLogo from '../../public/img/mahastateedu.gif';
+import resultIcon from '../../public/img/icon01.gif';
 
 interface ResultCardProps {
   student: {
@@ -25,127 +32,329 @@ interface ResultCardProps {
   };
 }
 
+const ResultTemplate = React.forwardRef<HTMLDivElement, { student: ResultCardProps['student'] }>(
+  ({ student }, ref) => {
+    const html = `
+	<!DOCTYPE html>
+    <html lang="en"><head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>SSC Result 2024::MSBSHSE, PUNE</title>
+	<!-- Bootstrap core CSS -->
+	<style>
+		${bootstrapStyles}
+		${mainStyles}
+	</style>
+
+  </head>
+  <body>
+	<div class="container">
+		<div id="header" class="header">
+		  <div class="row">
+			  <div id="imglogo" class="col-sm-2" style="margin-top: -3%;">
+				  <div class="card border-0">
+					  <div class="card-body">
+						  <img src="${mahastatuLogo.src}"/>
+					  </div>
+				  </div>
+			  </div>
+			  <div id="mhboardbanner" class="col-sm-10" style=" margin-top:-3%;">
+				  <div id="mhboardbannerin" class="card border-0">
+					  <div class="card-body">
+						  <div style="padding-left: 5%; margin-top:1%;" class="logo col-lg-10 col-md-10 col-sm-10">
+							  <p style="font-size:1.05em;">MAHARASHTRA STATE BOARD OF SECONDARY AND HIGHER SECONDARY
+								  EDUCATION, PUNE</p>
+   
+						  </div>
+						  <div id="mhboardbannerin1" style="padding-left: 5%; margin-top:-6%;" class="logo col-lg-10 col-md-10 col-sm-10">
+							  <p style="font-size:1em;"><b>SSC Examination March- 2025 RESULT</b></p>
+						  </div>
+					  </div>
+				  </div>
+			  </div>
+		  </div>
+   
+		  <div id="examresicon" style=" margin-top:-4%;" class="btb col-sm-12 row"><a class="col-3" href="http://results.gov.in" target="_blank"><img src="${resultIcon.src}"/></a>
+			  <div class="col-9 float-end ">
+				  <p style="font-size:.85em;">Brought to you by: <a style="text-decoration: none" href="http://www.nic.in/">NATIONAL INFORMATICS
+						  CENTRE</a></p>
+			  </div>
+		  </div>	
+   
+		  <nav id="togglenav" style=" margin-top:-3%;" class="navbar navbar-expand-lg navbar-light justify-content-center">
+			  <div>
+   
+			   <div class="navheader-div order-0">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+					 <span class="navbar-toggler-icon"></span>
+				   </button>
+				 </div>
+   
+				  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+					  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						  <li class="nav-item">
+							  <a class="nav-link active" aria-current="page" href="../default.htm">Home</a>
+						  </li>
+   
+   
+						  <li class="nav-item dropdown">
+							  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								  RESULTS
+							  </a>
+							  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								  <li><a class="dropdown-item " aria-current="page" href="sscmarch2024.htm">SSC
+										  Examination March- 2024 RESULT</a></li>
+   
+							  </ul>
+						  </li>
+						  <li class="nav-item">
+							  <a class="nav-link active" href="../disclaimer.htm" aria-current="page">Disclaimer</a>
+						  </li>
+					  </ul>
+				  </div>
+			  </div>
+		  </nav>
+   
+   
+   
+			</div><!-- /.container-fluid -->
+		  
+		</div>
+
+<!-- started code -->
+
+
+ <div style=" margin-top:-1%;" class="cont container">
+	<div id="hscexamdiv" style=" margin-top:4%;"><center><strong>SSC Examination March- 2024 RESULT</strong></center></div>
+	<div id="movup" class="row">
+		<div class="col-sm-12">
+			<div class="card border-0">
+				<div class="card-body">
+					<div class="cont container" id="container">
+						<div class="row">
+							<div style=" margin-top:-13%;" id="cardbody" class="col-sm-10">
+								<div id="res" style="background: transparent;" class="card border-0">
+									<div style=" margin-top:-1.5%;" class="card-body">
+										  <p style="text-align: left; margin-left:-5%;margin-top: 1em ;
+										  "><b>Candidate Name</b>: &nbsp;
+                                          ${student.student_name}
+										  </p>
+										  <p style="text-align: left; margin-left:-5%;margin-top: -0.8em ;
+										  "><b>Mother's Name</b>: &nbsp; 
+                                          ${student.mother_name}
+										  </p>
+										  <div id="movright">
+										  <p style="text-align: left; margin-left:-5%;margin-top: -0.8em ;
+										  "><b>Seat Number</b>: &nbsp; 
+                                          ${student.seat_number}
+										  </p>
+										  <p style="text-align: left; margin-left:-5%;margin-top: -0.8em ;
+										  "><b>Division</b>: &nbsp; 
+                                          ${student.division}
+										  </p>
+										  </div>
+									</div>
+								</div>
+							</div>
+							<div id="printdiv" class="col-sm-2">
+								<div style="background: transparent;" class="card border-0">
+									<div class="card-body">
+										<div style="float:right;" class="hidden-xs col-sm-4 hidden-print">
+											<button type="button" id="print" class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-print"></span> Print</button>
+										  </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="table">
+		<table class="table table-striped table-bordered table-hover">
+		   
+			 <thead>
+			<tr>
+			  <th>Subjects Code</th>
+			  <th>Subject Name</th>
+			  <th colspan="2">Marks Obtained</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			
+			  <td>01</td>
+			  <td>MARATHI (1ST LANG)</td>
+			  <td colspan="2">${student.marathi < 10 ? '00' + student.marathi : (student.marathi < 100 ? '0' + student.marathi : student.marathi)}</td>
+			</tr>
+			
+			<tr>
+			   <td>15</td>
+			  <td>HINDI (2/3 LANG)</td>
+              <td colspan="2">${student.hindi < 10 ? '00' + student.hindi : (student.hindi < 100 ? '0' + student.hindi : student.hindi)}</td>
+			</tr>
+			
+			<tr>
+			 <td>17</td>
+				<td>ENGLISH (2/3 LANG)</td>
+                <td colspan="2">${student.english < 10 ? '00' + student.english : (student.english < 100 ? '0' + student.english : student.english)}</td>
+			</tr>
+			
+			<tr>
+			 <td>71</td>
+			  <td>MATHEMATICS</td>
+              <td colspan="2">${student.mathematics < 10 ? '00' + student.mathematics : (student.mathematics < 100 ? '0' + student.mathematics : student.mathematics)}</td>
+			</tr>
+			
+			<tr>
+			 <td>72</td>
+			  <td>SCIENCE &amp; TECHNOLOGY</td>
+              <td colspan="2">${student.science < 10 ? '00' + student.science : (student.science < 100 ? '0' + student.science : student.science)}</td>
+			</tr>
+			
+			<tr>
+			 <td>73</td>
+			  <td>SOCIAL SCIENCES</td>
+              <td colspan="2">${student.social_science < 10 ? '00' + student.social_science : (student.social_science < 100 ? '0' + student.social_science : student.social_science)}</td>
+			</tr>
+					
+			
+			<tr class="success" >
+			<td>£&nbsp;Percentage</td>
+			<td>£&nbsp;${student.percentage < 10.00 ? '00' + student.percentage : (student.percentage < 100.00 ? '0' + student.percentage : student.percentage)}</td></td>
+			<td style="text-align:left"><b>Total Marks</b></td>
+			<td>
+			
+			
+			
+			    <!-- 470&#43;07&nbsp;$  -->
+				
+				<!--HERE add this code for handling *-sign cases, as Total and sport are NULL in these 22/07/2020 -->
+				$&nbsp;${student.total_marks < 10 ? '00' + student.total_marks : (student.total_marks < 100 ? '0' + student.total_marks : student.total_marks)}+${student.additional_marks < 10 ? '0' + student.additional_marks : student.additional_marks}
+		
+			</td>
+		</tr>
+		
+		
+			<tr class="success">
+			<td>Result</td>
+			<td>${student.result_status}</td>
+		<!--    <td  style="text-align:left"><b>Out of</b></td>
+			<td  style="text-align:left"><b>500</b></td> -->
+			 <td style="text-align:left"><b>Out of</b></td>
+			 <td style="text-align:left"><b>500</b></td>
+			 
+			</tr>
+			
+			<tr class="danger">
+			  <td colspan="4" style="text-align:center;font-style:italic">$ - Additional sport/art marks.</td>
+				  </tr>
+			
+			<tr><td colspan="4">£-Indicates total 
+			  marks and Percentage calculated on the basis of "Best of 5" 
+			  criteria</td></tr>
+		  </tbody>
+		</table>
+
+
+
+<div style="margin-top: -.5em;" id="notdisplay">
+	<p style="margin-top: 0.5em" align="justify"><font face="Times New Roman" size="1"> <b>Disclaimer</b>
+	Neither NIC nor Maharashtra State Board of Secondary and Higher Secondary 
+	Education, Pune is responsible for any inadvertent error that may have 
+	crept in the results being published online. The results published on 
+	net are for immediate information only. These cannot be treated as original 
+	statement of mark,please verify the information from original statement 
+	of marks issued by the Board separately and available at the time of declaration 
+	with the respective School.</font> </p>
+	<p style="margin-top: -1em ;margin-bottom: 0.5em ;" align="justify"><font face="Times New Roman" size="1"> <b>Note for CIS candidates</b>
+		It is obligatory for candidates admitted for class improvement to give their option
+		within one month from the date on which marklists have been distributed.After that
+		the board marklist with option will be given within the period of six months after
+		paying extra charges.If no application with option is received within 6 months the
+		class improvement performance will be considered as "Cancelled" and previous
+		performance will be taken into account by divisional board.</font></p>
+	
+		<div style="margin-top:2.2em"><center><font face="Times New Roman" size="2">Hosted By National 
+	Informatics Centre (NIC). Data Provided By MSBSHSE, Pune</font></center><font face="Times New Roman" size="2"> </font></div><font face="Times New Roman" size="2">
+  </font></div><font face="Times New Roman" size="2">
+	  <script>
+		const printbtn=document.getElementById('print');
+		printbtn.addEventListener('click',function()
+		{
+			print();
+		}
+		);
+		
+	</script>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+  
+</font></div></div></div></div></div></div></body></html>
+  `;
+
+    return (
+      <div
+        ref={ref}
+        className='pdf-template'
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  }
+);
+
 const ResultCard = ({ student }: ResultCardProps) => {
   const [showDetails, setShowDetails] = useState(false);
+  const templateRef = useRef<HTMLDivElement>(null);
 
-  const formatMark = (mark: number) => {
-    return mark.toString().padStart(3, '0');
-  };
+  const handleDownload = async () => {
+    if (!templateRef.current) return;
 
-  const handleDownload = () => {
-    const doc = new jsPDF();
-    let y = 20;
+    try {
+      // Create hidden template
+      const template = document.createElement('div');
+      template.style.position = 'absolute';
+      template.style.left = '-9999px';
+      template.style.top = '-9999px';
+      document.body.appendChild(template);
 
-    // Set font style and color
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(0, 0, 0); // Black color
+      // Create root and render template
+      const root = createRoot(template);
+      root.render(<ResultTemplate student={student} ref={templateRef} />);
 
-    // Header with URL
-    doc.setFontSize(14);
-    doc.setTextColor(0, 0, 255); // Blue color for URL
-    doc.textWithLink('SSC Result 2024::MSBSHSE, PUNE', 14, y, { url: 'https://mahresult.nic.in/sscmarch2024/sscresultviewmarch24.asp' });
-    doc.setTextColor(0, 0, 0); // Reset to black
-    y += 10;
+      // Wait for images to load and rendering
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Board information
-    doc.setFontSize(12);
-    doc.text('MAHARASHTRA STATE BOARD OF SECONDARY AND HIGHER SECONDARY EDUCATION, PUNE', 14, y); 
-    y += 8;
-    doc.text('SSC Examination March-2024 RESULT', 14, y); 
-    y += 10;
+      // Generate PDF
+      const canvas = await html2canvas(template, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        width: 794,
+        height: 1123,
+      });
 
-    // Candidate details
-    doc.text(`Candidate Name: ${student.student_name.toUpperCase()}`, 14, y); 
-    y += 6;
-    doc.text(`Mother's Name: ${student.mother_name.toUpperCase()}`, 14, y); 
-    y += 6;
-    doc.text(`Seat Number: ${student.seat_number.toUpperCase()}`, 14, y); 
-    y += 6;
-    doc.text(`Division: ${student.division}`, 14, y); 
-    y += 10;
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
 
-    // Subjects header
-    doc.setFontSize(12);
-    doc.text('Subjects', 14, y); 
-    y += 6;
-    
-    // Table header
-    doc.setFontSize(10);
-    doc.text('Code    Subject Name               Marks Obtained', 14, y);
-    y += 6;
-    
-    // Horizontal line
-    doc.line(14, y, 200, y);
-    y += 4;
+      const imgWidth = 210;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
 
-    // Subjects list - using dynamic data from props
-    const subjects = [
-      { code: '01', name: 'MARATHI (1ST LANG)', marks: formatMark(student.marathi) },
-      { code: '15', name: 'HINDI (2/3 LANG)', marks: formatMark(student.hindi) },
-      { code: '17', name: 'ENGLISH (2/3 LANG)', marks: formatMark(student.english) },
-      { code: '71', name: 'MATHEMATICS', marks: formatMark(student.mathematics) },
-      { code: '72', name: 'SCIENCE & TECHNOLOGY', marks: formatMark(student.science) },
-      { code: '73', name: 'SOCIAL SCIENCES', marks: formatMark(student.social_science) }
-    ];
+      // Clean up
+      root.unmount();
+      document.body.removeChild(template);
 
-    // Table rows
-    subjects.forEach(subject => {
-      doc.text(`${subject.code}    ${subject.name.padEnd(25, ' ')} ${subject.marks}`, 14, y);
-      y += 6;
-    });
+      // Download PDF
+      pdf.save(`${student.seat_number}_result.pdf`);
 
-    // Summary section
-    y += 6;
-    doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0); // Black for symbols
-    doc.text(`£ Percentage £ ${student.percentage}    Total Marks $ ${student.total_marks - student.additional_marks}+${student.additional_marks}`, 14, y); 
-    y += 8;
-    doc.text(`Result    ${student.result_status}    Out of 500`, 14, y); 
-    y += 8;
-    doc.text('$ - Additional sport/art marks.', 14, y); 
-    y += 6;
-    doc.text('£-Indicates total marks and Percentage calculated on the basis of "Best of 5" criteria', 14, y); 
-    y += 10;
-
-    // Disclaimer
-    doc.setFontSize(9);
-    doc.text('Disclaimer Neither NIC nor Maharashtra State Board of Secondary and Higher Secondary Education, Pune is', 14, y); 
-    y += 4;
-    doc.text('responsible for any inadvertent error that may have crept in the results being published online. The results', 14, y); 
-    y += 4;
-    doc.text('published on net are for immediate information only. These cannot be treated as original statement of', 14, y); 
-    y += 4;
-    doc.text('mark,please verify the information from original statement of marks issued by the Board separately and available', 14, y); 
-    y += 4;
-    doc.text('at the time of declaration with the respective School.', 14, y); 
-    y += 6;
-    
-    // CIS note
-    doc.setFontSize(10);
-    doc.setTextColor(255, 0, 0); // Red color for note
-    doc.text('*Note for CIS candidates It is obligatory for candidates admitted for class improvement to give their option*', 14, y); 
-    y += 4;
-    doc.text('within one month from the date on which marklists have been distributed.After that the board marklist with', 14, y); 
-    y += 4;
-    doc.text('option will be given within the period of six months after paying extra charges.If no application with option is', 14, y); 
-    y += 4;
-    doc.text('received within 6 months the class improvement performance will be considered as "Cancelled" and previous', 14, y); 
-    y += 4;
-    doc.text('performance will be taken into account by divisional board.', 14, y); 
-    y += 6;
-    
-    // Footer
-    doc.setTextColor(0, 0, 0); // Black color
-    doc.setFontSize(10);
-    doc.text('Hosted By National Informatics Centre (NIC). Data Provided By MSBSHSE, Pune', 14, y); 
-    y += 6;
-    
-    // Date
-    const date = new Date();
-    doc.setTextColor(100, 100, 100); // Gray color for date
-    doc.text(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')} ${date.getHours() >= 12 ? 'PM' : 'AM'}`, 14, y);
-
-    doc.save(`${student.seat_number}_result.pdf`);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
   };
 
   const subjects = [
@@ -162,7 +371,7 @@ const ResultCard = ({ student }: ResultCardProps) => {
       <div className="p-6">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6">
           <div>
-            <p className="text-gray-600">Seat Number: {student.seat_number}</p> 
+            <p className="text-gray-600">Seat Number: {student.seat_number}</p>
             <p className="text-gray-600">Candidate Name: {student.student_name}</p>
             <p className="text-gray-600">Mother's Name: {student.mother_name}</p>
           </div>

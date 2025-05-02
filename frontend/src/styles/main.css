@@ -313,3 +313,20 @@ jumbo a:hover {
     content: none !important;
   }
 }
+
+.pdf-template {
+  width: 794px;
+  min-height: 1123px;
+  background: white;
+  padding: 0;
+  margin: 0;
+}
+
+@media print {
+  .pdf-template {
+    width: 210mm;
+    height: 297mm;
+  }
+}
+
+/* Add any other custom styles needed for the template */

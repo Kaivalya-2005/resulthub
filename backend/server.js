@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const db = require('./models/db.js'); // Import your database connection
+//const db = require('./models/db.js'); // Import your database connection
 const { startPollingUntilSuccess } = require('./utils/fetchResults.js');  // Import your fetchResults function
 //const { generateAndStorePDFs } = require('./services/pdfService.js'); // Import the PDF generation function
 const { getResultDistribution, compareStudents, getStudentResult, getTopToppers, getSubjectwiseToppers, getSubjectDistribution } = require('./services/analysisService.js'); // Add this after other requires
@@ -121,22 +121,22 @@ app.get('/api/statistics/subject-distribution/:subject', async (req, res) => {
     }
 });
 
-// Add this route near your other routes
-app.get('/api/test-db', async (req, res) => {
-    try {
-        const [result] = await db.execute('SELECT 1 as test');
-        res.json({
-            status: 'Database connected',
-            result: result
-        });
-    } catch (error) {
-        console.error('Database connection error:', error);
-        res.status(500).json({
-            error: 'Database connection failed',
-            details: error.message
-        });
-    }
-});
+// // Add this route near your other routes
+// app.get('/api/test-db', async (req, res) => {
+//     try {
+//         const [result] = await db.execute('SELECT 1 as test');
+//         res.json({
+//             status: 'Database connected',
+//             result: result
+//         });
+//     } catch (error) {
+//         console.error('Database connection error:', error);
+//         res.status(500).json({
+//             error: 'Database connection failed',
+//             details: error.message
+//         });
+//     }
+// });
 
 // Add this at the end of your file
 app.use((err, req, res, next) => {
