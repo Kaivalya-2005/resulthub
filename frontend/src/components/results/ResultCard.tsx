@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Eye } from 'lucide-react';
 import html2pdf from 'html2pdf.js/dist/html2pdf.min';
@@ -274,7 +274,7 @@ function getResultHTML(student: ResultCardProps['student']) {
 const ResultCard = ({ student }: ResultCardProps) => {
   const [showDetails, setShowDetails] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
-  const printRef = useRef<HTMLDivElement>(null);
+  // const printRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
     setIsGeneratingPDF(true);
@@ -372,17 +372,6 @@ const ResultCard = ({ student }: ResultCardProps) => {
               {isGeneratingPDF ? 'Generating...' : 'Download Result'}
             </Button>
           </div>
-        </div>
-
-        {/* PDF Preview */}
-        <div style={{ maxWidth: 645, margin: "40px auto", background: "#fff", padding: 24 }}>
-          <div
-            ref={printRef}
-            style={{ width: 645, margin: 0, padding: 0 }}
-            dangerouslySetInnerHTML={{
-              __html: getResultHTML(student)
-            }}
-          />
         </div>
 
         {showDetails && (
