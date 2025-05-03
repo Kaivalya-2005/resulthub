@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { string } from 'vite-plugin-string'; // ✅ Import plugin
+import string from 'vite-plugin-string'; // ✅ Import plugin
 
 export default defineConfig({
   plugins: [
