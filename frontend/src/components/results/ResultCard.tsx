@@ -4,14 +4,6 @@ import { Download, Eye } from 'lucide-react';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 
-// Import CSS as raw text
-import bootstrapCSS from './bootstrap.min.css?raw';
-import mainCSS from './main.css?raw';
-// Import images 
-import mahastateeduLogo from './mahastateedu.gif';
-import icon01 from './icon01.gif';
-
-
 interface ResultCardProps {
   student: {
     seat_number: string;
@@ -43,12 +35,9 @@ function getResultHTML(student: ResultCardProps['student']) {
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<title>SSC Result 2024::MSBSHSE, PUNE</title>
-	<!-- Bootstrap core CSS -->
-	<style>
-		${bootstrapCSS}
-		${mainCSS}
-	</style>
-
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/bootstrap.min.css" />
+    <link rel="stylesheet" href="/main.css" />
   </head>
   <body>
 	<div class="container">
@@ -57,7 +46,7 @@ function getResultHTML(student: ResultCardProps['student']) {
 			  <div id="imglogo" class="col-sm-2" style="margin-top: -3%;">
 				  <div class="card border-0">
 					  <div class="card-body">
-						  <img src="${mahastateeduLogo}" alt="Logo" />
+						  <img src="/mahastateedu.gif" alt="Logo" />
 					  </div>
 				  </div>
 			  </div>
@@ -77,7 +66,7 @@ function getResultHTML(student: ResultCardProps['student']) {
 			  </div>
 		  </div>
    
-		  <div id="examresicon" style=" margin-top:-4%;" class="btb col-sm-12 row"><a class="col-3" href="http://results.gov.in" target="_blank"><img src="${icon01}" alt="Icon" /></a>
+		  <div id="examresicon" style=" margin-top:-4%;" class="btb col-sm-12 row"><a class="col-3" href="http://results.gov.in" target="_blank"><img src="/icon01.gif" alt="Icon" /></a>
 			  <div class="col-9 float-end ">
 				  <p style="font-size:.85em;">Brought to you by: <a style="text-decoration: none" href="http://www.nic.in/">NATIONAL INFORMATICS
 						  CENTRE</a></p>
