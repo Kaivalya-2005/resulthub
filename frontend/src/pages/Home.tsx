@@ -3,6 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Search, AlertCircle, TrendingUp, Scale } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -28,6 +29,7 @@ interface StudentResult {
 }
 
 const Home = () => {
+  const navigate = useNavigate();
   const resultRef = useRef<HTMLDivElement>(null);
   const [motherName, setMotherName] = useState('');
   const [seatNumber, setSeatNumber] = useState('');
@@ -161,7 +163,10 @@ const Home = () => {
           transition={{ duration: 0.5 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-8"
         >
-          <Card className="p-6 bg-gradient-to-br from-purple-50 to-white">
+          <Card 
+            className="p-6 bg-gradient-to-br from-purple-50 to-white cursor-pointer transition-transform hover:scale-105"
+            onClick={() => navigate('/compare')}
+          >
             <div className="flex items-start space-x-4">
               <div className="p-3 bg-purple-100 rounded-lg">
                 <Scale size={24} className="text-purple-600" />
@@ -176,7 +181,10 @@ const Home = () => {
             </div>
           </Card>
 
-          <Card className="p-6 bg-gradient-to-br from-teal-50 to-white">
+          <Card 
+            className="p-6 bg-gradient-to-br from-teal-50 to-white cursor-pointer transition-transform hover:scale-105"
+            onClick={() => navigate('/performance')}
+          >
             <div className="flex items-start space-x-4">
               <div className="p-3 bg-teal-100 rounded-lg">
                 <TrendingUp size={24} className="text-teal-600" />

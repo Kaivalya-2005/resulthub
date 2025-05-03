@@ -1,27 +1,18 @@
-import { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { HTMLAttributes } from 'react';
 
-interface CardProps {
-  children: ReactNode;
+interface CardProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
-  hoverEffect?: boolean;
+  children: React.ReactNode;
 }
 
-const Card = ({ children, className = '', hoverEffect = false }: CardProps) => {
-  const baseClasses = 'bg-white rounded-lg shadow-md overflow-hidden';
-  const hoverClasses = hoverEffect
-    ? 'transition-all duration-300 hover:shadow-lg'
-    : '';
-
+const Card = ({ className = '', children, ...props }: CardProps) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`${baseClasses} ${hoverClasses} ${className}`}
+    <div 
+      className={`bg-white rounded-lg shadow ${className}`}
+      {...props}
     >
       {children}
-    </motion.div>
+    </div>
   );
 };
 
