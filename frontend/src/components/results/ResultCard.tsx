@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Eye } from 'lucide-react';
-import html2pdf from 'html2pdf.js';
+import html2pdf from 'html2pdf.js/dist/html2pdf.min';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 
