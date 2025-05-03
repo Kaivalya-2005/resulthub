@@ -1,10 +1,13 @@
 import { Topper } from '../../types';
 import Card from '../ui/Card';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
-const ToppersList = ({ toppers }: { toppers: Topper[] }) => {
+const ToppersList = ({ toppers, loading }: { toppers: Topper[]; loading?: boolean }) => {
+  if (loading) return <LoadingSpinner />;
+  
   return (
     <Card className="w-full">
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <h3 className="text-xl font-bold text-center mb-4">Class Merit List</h3>
         <div className="overflow-x-auto max-h-[600px]">
           <table className="min-w-full divide-y divide-gray-200">

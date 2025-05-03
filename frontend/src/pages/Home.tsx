@@ -195,10 +195,10 @@ const Home = () => {
                 <TrendingUp size={24} className="text-teal-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">Performance Overview</h3>
+                <h3 className="text-lg font-semibold mb-2">Performance Review</h3>
                 <p className="text-gray-600">
-                  Get a comprehensive analysis of your academic performance with subject-wise breakdown
-                  and downloadable PDF reports for future reference.
+                  Receive an in-depth evaluation of all the results, highlighting key insights and trends. 
+                  Access a detailed breakdown of achievers, categorized by subject for easy reference.
                 </p>
               </div>
             </div>

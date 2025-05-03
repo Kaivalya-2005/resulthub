@@ -6,6 +6,7 @@ import DistributionChart from '../components/charts/DistributionChart';
 import ToppersList from '../components/results/ToppersList';
 import SubjectToppersList from '../components/results/SubjectToppersList';
 import SubjectDistributionChart from '../components/charts/SubjectDistributionChart';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
 
 const subjects: Subject[] = [
   { id: 'english', name: 'English' },
@@ -71,96 +72,102 @@ const PerformanceReview = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-8 md:py-16">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-12"
+          className="text-center max-w-3xl mx-auto mb-8 md:mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent mb-4">
+          <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent mb-4">
             Performance Review
           </h1>
-          <p className="text-gray-600 text-lg mb-8">
+          <p className="text-gray-600 text-base md:text-lg mb-8">
             Analyze overall performance and see the top performers in each subject
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <DistributionChart 
-              distribution={distribution}
-              loading={loading}
-              error={error}
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <ToppersList toppers={toppers} />
-          </motion.div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mb-16"
-        >
-          <div className="p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              Subject-Wise Toppers
-            </h2>
-            
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
-              {subjects.map((subject) => (
-                <motion.button
-                  key={subject.id}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`px-4 py-2 rounded-full transition-colors ${
-                    activeSubject === subject.id
-                      ? 'bg-gradient-to-r from-purple-600 to-teal-500 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                  onClick={() => setActiveSubject(subject.id)}
-                >
-                  {subject.name}
-                </motion.button>
-              ))}
-            </div>
-            
-            {activeSubject && (
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 mb-8 md:mb-16">
               <motion.div
-                key={activeSubject}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
               >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
-                  <SubjectToppersList 
-                    subject={subjects.find(s => s.id === activeSubject)?.name || ''} 
-                    toppers={getCurrentSubjectToppers()} 
-                  />
-                  {subjectDistribution && (
-                    <SubjectDistributionChart
-                      subject={subjects.find(s => s.id === activeSubject)?.name || ''}
-                      distribution={subjectDistribution}
-                    />
-                  )}
-                </div>
+                <DistributionChart 
+                  distribution={distribution}
+                  loading={loading}
+                  error={error}
+                />
               </motion.div>
-            )}
-          </div>
-        </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <ToppersList toppers={toppers} />
+              </motion.div>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="mb-8 md:mb-16"
+            >
+              <div className="p-4 md:p-6">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-6 text-center">
+                  Subject-Wise Toppers
+                </h2>
+                
+                <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-6 md:mb-8">
+                  {subjects.map((subject) => (
+                    <motion.button
+                      key={subject.id}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`px-3 md:px-4 py-2 text-sm md:text-base rounded-full transition-colors ${
+                        activeSubject === subject.id
+                          ? 'bg-gradient-to-r from-purple-600 to-teal-500 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                      onClick={() => setActiveSubject(subject.id)}
+                    >
+                      {subject.name}
+                    </motion.button>
+                  ))}
+                </div>
+                
+                {activeSubject && (
+                  <motion.div
+                    key={activeSubject}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
+                      <SubjectToppersList 
+                        subject={subjects.find(s => s.id === activeSubject)?.name || ''} 
+                        toppers={getCurrentSubjectToppers()} 
+                      />
+                      {subjectDistribution && (
+                        <SubjectDistributionChart
+                          subject={subjects.find(s => s.id === activeSubject)?.name || ''}
+                          distribution={subjectDistribution}
+                        />
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
       </div>
     </div>
   );
