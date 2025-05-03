@@ -4,7 +4,6 @@
     "axios": "^1.9.0",
     "body-parser": "^1.20.3",
     "cheerio": "^1.0.0",
-    "chrome-aws-lambda": "^10.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^4.21.2",
@@ -13,14 +12,12 @@
     "jspdf": "^3.0.1",
     "mysql2": "^3.14.0",
     "pdfkit": "^0.17.0",
-    "puppeteer-core": "^24.8.0",
     "uuid": "^11.1.0"
   },
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "postinstall": "npx puppeteer browsers install chrome",
     "start": "node server.js"
   },
   "keywords": [],
