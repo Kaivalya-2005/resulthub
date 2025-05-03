@@ -11,7 +11,7 @@ const app = express();
 // Middleware
 // Update CORS configuration
 app.use(cors({
-    origin: ['https://result-demo-flame.vercel.app/','https://result-demo-kaivalyadeshpande2005-gmailcoms-projects.vercel.app/','https://result-demo-git-main-kaivalyadeshpande2005-gmailcoms-projects.vercel.app/','https://result-demo-3zrn1o4lk-kaivalyadeshpande2005-gmailcoms-projects.vercel.app/'], // Add your frontend URL
+    origin: '*', // Add your frontend URL
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
     credentials: true
