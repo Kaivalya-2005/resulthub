@@ -1,14 +1,20 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { string } from 'vite-plugin-string'; // ✅ Import plugin
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    string({
+      include: ['**/*.css'], // ✅ Treat all .css files as raw strings
+    }),
+  ],
   optimizeDeps: {
-    include: ['react/jsx-runtime']  // 👈 important for proper React ESM imports
+    include: ['react/jsx-runtime'], // ✅ Your existing setting
   },
   build: {
     commonjsOptions: {
-      transformMixedEsModules: true  // 👈 helps with some ESM/CJS mismatches
-    }
-  }
-})
+      transformMixedEsModules: true, // ✅ Your existing setting
+    },
+  },
+});
