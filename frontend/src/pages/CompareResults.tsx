@@ -69,17 +69,17 @@ const CompareResults = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-teal-50 to-white">
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-8 md:py-16">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-12"
+          className="text-center max-w-3xl mx-auto mb-8 md:mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent mb-4">
+          <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent mb-4">
             Compare Results
           </h1>
-          <p className="text-gray-600 text-lg mb-8">
+          <p className="text-gray-600 text-base md:text-lg mb-6 md:mb-8">
             Compare the academic performance of two students side by side
           </p>
         </motion.div>
@@ -88,18 +88,18 @@ const CompareResults = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-16"
+          className="mb-8 md:mb-16"
         >
-          <Card className="max-w-3xl mx-auto p-8">
+          <Card className="max-w-3xl mx-auto p-4 md:p-8">
             <form onSubmit={handleCompare}>
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Enter Seat Numbers to Compare</h2>
-                <p className="text-gray-600 mb-4">
+              <div className="mb-4 md:mb-6">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-4">Enter Seat Numbers to Compare</h2>
+                <p className="text-sm md:text-base text-gray-600 mb-4">
                   Enter the seat numbers of two students to compare their results
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 ">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div className="w-full flex flex-col items-center justify-center">
                   <Input
                     label="First Student Seat Number"
@@ -161,7 +161,7 @@ const CompareResults = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-16"
+            className="mb-8 md:mb-16"
           >
             <StudentComparisonCard student1={student1} student2={student2} />
           </motion.div>

@@ -84,6 +84,11 @@ const Home = () => {
     }
   };
 
+  const handleNavigate = (path: string) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => navigate(path), 500);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
       <div className="container mx-auto px-4 py-8 md:py-16">
@@ -165,7 +170,7 @@ const Home = () => {
         >
           <Card 
             className="p-6 bg-gradient-to-br from-purple-50 to-white cursor-pointer transition-transform hover:scale-105"
-            onClick={() => navigate('/compare')}
+            onClick={() => handleNavigate('/compare')}
           >
             <div className="flex items-start space-x-4">
               <div className="p-3 bg-purple-100 rounded-lg">
@@ -183,7 +188,7 @@ const Home = () => {
 
           <Card 
             className="p-6 bg-gradient-to-br from-teal-50 to-white cursor-pointer transition-transform hover:scale-105"
-            onClick={() => navigate('/performance')}
+            onClick={() => handleNavigate('/performance')}
           >
             <div className="flex items-start space-x-4">
               <div className="p-3 bg-teal-100 rounded-lg">
