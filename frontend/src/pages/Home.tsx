@@ -119,14 +119,14 @@ const Home = () => {
                   label="Seat Number"
                   placeholder="e.g., A000001"
                   value={seatNumber}
-                  onChange={(e) => setSeatNumber(e.target.value)}
+                  onChange={(e) => setSeatNumber(e.target.value.trim())}
                   autoFocus
                 />
                 <Input
                   label="Mother's Name"
                   placeholder="Enter your mother's name"
                   value={motherName}
-                  onChange={(e) => setMotherName(e.target.value)}
+                  onChange={(e) => setMotherName(e.target.value.trim())}
                 />
               </div>
 

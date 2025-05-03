@@ -105,13 +105,13 @@ const CompareResults = () => {
                     label="First Student Seat Number"
                     placeholder="e.g., A000001"
                     value={seatNumber1}
-                    onChange={(e) => setSeatNumber1(e.target.value)}
+                    onChange={(e) => setSeatNumber1(e.target.value.trim())}
                   />
                   <Input
                     label="First Student's Mother's Name"
                     placeholder="Enter mother's name"
                     value={motherName1}
-                    onChange={(e) => setMotherName1(e.target.value)}
+                    onChange={(e) => setMotherName1(e.target.value.trim())}
                   />
                 </div>
 
@@ -120,13 +120,13 @@ const CompareResults = () => {
                     label="Second Student Seat Number"
                     placeholder="e.g., A000002"
                     value={seatNumber2}
-                    onChange={(e) => setSeatNumber2(e.target.value)}
+                    onChange={(e) => setSeatNumber2(e.target.value.trim())}
                   />
                   <Input
                     label="Second Student's Mother's Name"
                     placeholder="Enter mother's name"
                     value={motherName2}
-                    onChange={(e) => setMotherName2(e.target.value)}
+                    onChange={(e) => setMotherName2(e.target.value.trim())}
                   />
                 </div>
               </div>
