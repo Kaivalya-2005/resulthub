@@ -139,6 +139,15 @@ const ResultCard = ({ student }: ResultCardProps) => {
 
     setIsGeneratingPDF(true);
     try {
+      // Preload the logo
+      await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";  // Enable CORS
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error('Failed to load logo'));
+        img.src = mahastatuLogo;
+      });
+
       const template = document.createElement("div");
       template.style.position = "absolute";
       template.style.left = "-9999px";
@@ -147,26 +156,19 @@ const ResultCard = ({ student }: ResultCardProps) => {
 
       template.innerHTML = getResultHTML(student);
 
-      const imgs = template.getElementsByTagName("img");
-      await Promise.all(
-        Array.from(imgs).map(
-          (img) =>
-            new Promise((resolve) => {
-              if (img.complete) resolve(null);
-              else img.onload = () => resolve(null);
-              img.onerror = () => {
-                console.error(`Failed to load image: ${img.src}`);
-                resolve(null);
-              };
-            })
-        )
-      );
-
       const canvas = await html2canvas(template, {
         scale: 2,
         useCORS: true,
-        logging: false,
-        allowTaint: true
+        logging: true,
+        allowTaint: true,
+        imageTimeout: 15000, // Increase timeout to 15 seconds
+        onclone: (clonedDoc) => {
+          // Force image loading in cloned document
+          const images = clonedDoc.getElementsByTagName('img');
+          for (let img of images) {
+            img.crossOrigin = "anonymous";
+          }
+        }
       });
 
       const pdf = new jsPDF({
