@@ -2,7 +2,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Search, AlertCircle } from 'lucide-react';
+import { Search, AlertCircle, TrendingUp, Scale } from 'lucide-react';
 import axios from 'axios';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -13,7 +13,7 @@ interface StudentResult {
   seat_number: string;
   student_name: string; 
   mother_name: string;
-  division: string; // Add this line
+  division: string;
   marathi: number;
   hindi: number;
   english: number;
@@ -84,42 +84,36 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-8 md:py-16">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-12"
+          className="text-center max-w-3xl mx-auto mb-8"
         >
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent mb-4">
-            Student Results Portal
+            SSC Result Portal 2025
           </h1>
-          <p className="text-gray-600 text-lg mb-8">
-            Access your academic results by entering your mother's name and seat number below
+          <p className="text-gray-600 text-lg">
+            Enter your details below to check your results
           </p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-16"
+          transition={{ duration: 0.5 }}
+          className="mb-12"
         >
-          <Card className="max-w-2xl mx-auto p-8">
-            <form onSubmit={handleSearch}>
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Find Your Results</h2>
-                <p className="text-gray-600 mb-4">
-                  Enter your credentials to view and download your results
-                </p>
-              </div>
-
-              <div className="space-y-4 mb-6">
+          <Card className="max-w-2xl mx-auto p-6 md:p-8 shadow-lg">
+            <form onSubmit={handleSearch} className="space-y-6">
+              <div className="space-y-4">
                 <Input
                   label="Seat Number"
                   placeholder="e.g., A000001"
                   value={seatNumber}
                   onChange={(e) => setSeatNumber(e.target.value)}
+                  autoFocus
                 />
                 <Input
                   label="Mother's Name"
@@ -130,7 +124,7 @@ const Home = () => {
               </div>
 
               {error && (
-                <div className="mb-4 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 flex items-start">
+                <div className="p-3 bg-red-50 border-l-4 border-red-500 text-red-700 flex items-start">
                   <AlertCircle size={20} className="mr-2 mt-0.5 flex-shrink-0" />
                   <p>{error}</p>
                 </div>
@@ -140,19 +134,11 @@ const Home = () => {
                 type="submit" 
                 fullWidth 
                 isLoading={isSearching}
+                className="py-3 text-lg"
               >
-                <Search size={18} className="mr-2" />
-                Find Results
+                <Search size={20} className="mr-2" />
+                Check Result
               </Button>
-              
-              <div className="mt-4 text-center text-sm text-gray-500">
-                <p>
-                  Need help? Contact your school administration or email{' '}
-                  <a href="mailto:support@resulthub.edu" className="text-purple-600 hover:underline">
-                    support@resulthub.edu
-                  </a>
-                </p>
-              </div>
             </form>
           </Card>
         </motion.div>
@@ -168,6 +154,43 @@ const Home = () => {
             <ResultCard student={student} />
           </motion.div>
         )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-8"
+        >
+          <Card className="p-6 bg-gradient-to-br from-purple-50 to-white">
+            <div className="flex items-start space-x-4">
+              <div className="p-3 bg-purple-100 rounded-lg">
+                <Scale size={24} className="text-purple-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Compare Results</h3>
+                <p className="text-gray-600">
+                  Compare your performance with other students and see where you stand in different subjects.
+                  Get detailed insights about your strengths and areas for improvement.
+                </p>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-6 bg-gradient-to-br from-teal-50 to-white">
+            <div className="flex items-start space-x-4">
+              <div className="p-3 bg-teal-100 rounded-lg">
+                <TrendingUp size={24} className="text-teal-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Performance Overview</h3>
+                <p className="text-gray-600">
+                  Get a comprehensive analysis of your academic performance with subject-wise breakdown
+                  and downloadable PDF reports for future reference.
+                </p>
+              </div>
+            </div>
+          </Card>
+        </motion.div>
       </div>
     </div>
   );

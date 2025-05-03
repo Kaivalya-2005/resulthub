@@ -29,7 +29,7 @@ interface ResultCardProps {
     result_status: string;
   };
 }
-const mahastatuLogo = 'data:image/jpeg;base64,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';
+const mahastatuLogo = 'data:image/jpeg;base64,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';
 
 function getResultHTML(student: ResultCardProps['student']) {
   try {
@@ -184,40 +184,49 @@ const ResultCard = ({ student }: ResultCardProps) => {
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
-      <div className="p-6">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6">
-          <div>
-            <p className="text-gray-600">Seat Number: {student.seat_number}</p>
-            <p className="text-gray-600">Candidate Name: {student.student_name}</p>
-            <p className="text-gray-600">Mother's Name: {student.mother_name}</p>
+      <div className="p-4 md:p-6">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
+          <div className="space-y-2">
+            <p className="text-gray-600 text-sm md:text-base">
+              <span className="font-medium">Seat Number:</span> {student.seat_number}
+            </p>
+            <p className="text-gray-600 text-sm md:text-base">
+              <span className="font-medium">Name:</span> {student.student_name}
+            </p>
+            <p className="text-gray-600 text-sm md:text-base">
+              <span className="font-medium">Mother's Name:</span> {student.mother_name}
+            </p>
           </div>
-          <div className="mt-4 sm:mt-0">
-            <p className="text-lg font-medium">
+          <div className="mt-4 md:mt-0 p-4 bg-gray-50 rounded-lg">
+            <p className="text-base md:text-lg font-medium">
               Total: <span className="font-bold">
                 {student.total_marks}
-                {student.additional_marks > 0 && `+${student.additional_marks}`}
+                {student.additional_marks > 0 && 
+                  <span className="text-green-600">{`+${student.additional_marks}`}</span>
+                }
                 /500
               </span>
             </p>
-            <p className="text-lg font-medium">
+            <p className="text-base md:text-lg font-medium">
               Percentage: <span className="font-bold">{student.percentage}%</span>
             </p>
           </div>
         </div>
 
-        <div className="flex justify-between items-center mb-6">
-          <p className="text-lg">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <p className="text-base md:text-lg order-2 sm:order-1">
             Status: <span className={`font-bold ${
               student.result_status === 'PASS' ? 'text-green-600' : 'text-red-600'
             }`}>
               {student.result_status}
             </span>
           </p>
-          <div className="space-x-2">
+          <div className="flex flex-wrap gap-2 order-1 sm:order-2 w-full sm:w-auto">
             <Button
               variant="outline"
               size="sm"
               onClick={() => setShowDetails(!showDetails)}
+              className="flex-1 sm:flex-none"
             >
               <Eye size={16} className="mr-1" />
               {showDetails ? 'Hide Details' : 'View Details'}
@@ -227,6 +236,7 @@ const ResultCard = ({ student }: ResultCardProps) => {
               size="sm" 
               onClick={handleDownload}
               disabled={isGeneratingPDF}
+              className="flex-1 sm:flex-none"
             >
               <Download size={16} className="mr-1" />
               {isGeneratingPDF ? 'Generating...' : 'Download Result'}
@@ -242,21 +252,33 @@ const ResultCard = ({ student }: ResultCardProps) => {
             transition={{ duration: 0.3 }}
           >
             <div className="border-t pt-4">
-              <h3 className="text-lg font-medium mb-3">Subject Marks</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <h3 className="text-lg font-medium mb-3">Subject Performance</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                 {subjects.map((subject) => (
                   <div
                     key={subject.name}
-                    className="flex justify-between items-center p-3 bg-gray-50 rounded-md"
+                    className="flex justify-between items-center p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
                   >
-                    <span className="font-medium">{subject.name}</span>
-                    <span className="font-bold">{subject.marks}/100</span>
+                    <span className="font-medium text-sm md:text-base">{subject.name}</span>
+                    <div className="flex items-center">
+                      <div className="w-1 h-8 mr-3 rounded-full" 
+                        style={{
+                          backgroundColor: 
+                            subject.marks >= 75 ? '#10B981' :
+                            subject.marks >= 60 ? '#60A5FA' :
+                            subject.marks >= 35 ? '#F59E0B' : '#EF4444'
+                        }}
+                      />
+                      <span className="font-bold text-sm md:text-base">{subject.marks}/100</span>
+                    </div>
                   </div>
                 ))}
                 {student.additional_marks > 0 && (
-                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-md">
-                    <span className="font-medium">Additional Marks</span>
-                    <span className="font-bold">{student.additional_marks}</span>
+                  <div className="flex justify-between items-center p-3 bg-green-50 rounded-md">
+                    <span className="font-medium text-sm md:text-base">Additional Marks</span>
+                    <span className="font-bold text-sm md:text-base text-green-600">
+                      +{student.additional_marks}
+                    </span>
                   </div>
                 )}
               </div>
