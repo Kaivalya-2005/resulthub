@@ -12,8 +12,9 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
     "axios": "^1.6.2",
+    "bootstrap": "^5.3.5",
     "chart.js": "^4.4.1",
-    "framer-motion": "^10.16.4",
+    "framer-motion": "^10.18.0",
     "fs": "^0.0.1-security",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
