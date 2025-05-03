@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Eye } from 'lucide-react';
-import html2pdf from 'html2pdf.js/dist/html2pdf.min';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
+
+// Import CSS as raw text
+const bootstrapCSS = `./bootstrap.min.css`;
+const mainCSS = `./main.css`;
 
 interface ResultCardProps {
   student: {
@@ -26,280 +29,292 @@ interface ResultCardProps {
 }
 
 function getResultHTML(student: ResultCardProps['student']) {
-  const styles = `
-    <style>
-            .page {
-              width: 595px;
-              margin-left: 100px;
-              margin-right: 0;
-              padding: 0;
-              font-family: Arial, Helvetica, sans-serif;
-              color: #000;
-              font-size: 18px;
-              box-sizing: border-box;
-              display: block;
-            }
-            .header {
-              display: flex;
-              align-items: flex-start; /* Shift logo up relative to text */
-              margin-top: 24px;
-              margin-bottom: 8px;
-              width: 100%;
-              text-align: center;
-            }
-            .logo-link {
-              align: center;
-              display: block;
-              width: 72px;
-              height: 72px;
-              margin-right: 24px;
-              margin-left: 0;
-              margin-top: -6px; /* Shift logo a bit more upwards */
-            }
-            .logo-link img {
-              width: 76px;
-              height: 76px;
-              object-fit: contain;
-              display: block;
-            }
-            .header-titles {
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-            }
-            .board-title {
-              font-size: 1.1em;
-              font-weight: bold;
-              margin-bottom: 2px;
-              letter-spacing: 0.5px;
-              line-height: 1.2;
-              font-family: Arial, Helvetica, sans-serif;
-            }
-            .exam-title {
-              font-size: 1.06em;
-              font-weight: bold;
-              margin-top: 10px;
-              margin-bottom: 14px;
-              text-decoration: underline;
-              font-family: Arial, Helvetica, sans-serif;
-            }
-            .info-row {
-              margin-bottom: 6px;
-              margin-left: 10px;
-              width: 100%;
-              font-family: Arial, Helvetica, sans-serif;
-            }
-            .label {
-              font-weight: bold;
-              display: inline-block;
-              width: 170px;
-              font-family: Arial, Helvetica, sans-serif;
-            }
-            .table-section {
-              margin-top: 18px;
-              margin-bottom: 10px;
-              width: 100%;
-            }
-            table {
-              width: 100%;
-              border-collapse: collapse;
-              font-size: 18px;
-              margin-bottom: 0;
-              font-family: Arial, Helvetica, sans-serif;
-            }
-            th, td {
-              border: 1px solid #e0e0e0 !important;
-             padding: 8px 12px;
-             text-align: left;
-             font-family: Arial, Helvetica, sans-serif;
-             font-size: 18px;
-             height: 40px;
-            }
-            tbody tr:nth-child(odd) {
-              background: #f2f2f2;
-            }
-            }
-            th {
-              font-weight: bold;
-              text-align: center;
-              background: #f5f5f5;
-              font-size: 18px;
-            }
-            .center {
-              text-align: center;
-            }
-            .success {
-              background: #fff;
-              font-weight: bold;
-            }
-            .danger {
-              background: #fff3cd;
-              color: #856404;
-              font-style: italic;
-              text-align: center;
-            }
-            .footnote {
-              font-size: 18px;
-              color: #333;
-              margin-top: 8px;
-              margin-bottom: 10px;
-              margin-left: 4px;
-              font-family: Arial, Helvetica, sans-serif;
-            }
-            .disclaimer, .note {
-              font-size: 11px;
-              color: #222;
-              margin-top: 10px;
-              line-height: 1.4;
-              font-family: Arial, Helvetica, sans-serif;
-              margin-left: 4px;
-              margin-right: 4px;
-              width: 100%;
-            }
-            .hosted {
-              text-align: center;
-              margin-top: 14px;
-              font-size: 15px;
-            }
-          </style>
+  // Update image paths to absolute URLs
+  const mahastateduLogo = './mahastateedu.gif';
+  const icon01 = './icon01.gif';
 
-  `;
+  let html = `
+	<!DOCTYPE html>
+    <html lang="en"><head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>SSC Result 2024::MSBSHSE, PUNE</title>
+	<!-- Bootstrap core CSS -->
+	<style>
+		${bootstrapCSS}
+		${mainCSS}
+	</style>
 
-  return `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="UTF-8">
-        ${styles}
-      </head>
-      <body>
-        <div class="page">
-          <div class="header">
-            <a href="#" class="logo-link">
-              <img src="https://i.ibb.co/bMbKBhw3/logo.jpg" alt="logo" />
-            </a>
-            <div class="header-titles">
-              <div class="board-title">
-                MAHARASHTRA STATE BOARD OF SECONDARY<br>
-                AND HIGHER SECONDARY EDUCATION, PUNE
-              </div>
-              <div class="exam-title">
-                SSC Examination March- 2025
-                <div>RESULT</div>
-              </div>
-            </div>
-          </div>
-          <div class="info-row"><span class="label">Candidate Name:</span> ${student.student_name}</div><br>
-          <div class="info-row"><span class="label">Mother's Name:</span> ${student.mother_name}</div>
-          <div class="info-row"><span class="label">Seat Number:</span> ${student.seat_number}</div><br>
-          <div class="info-row"><span class="label">Division:</span> ${student.division}</div>
-          <div class="table-section">
-            <table>
-              <thead>
-                <tr>
-                  <th style="width:120px;">Subjects<br/>Code</th>
-                  <th>Subject Name</th>
-                  <th style="width:180px;">Marks Obtained</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="center">01</td>
-                  <td>MARATHI (1ST LANG)</td>
-                  <td class="center">${student.marathi.toString().padStart(3, "0")}</td>
-                </tr>
-                <tr>
-                  <td class="center">15</td>
-                  <td>HINDI (2/3 LANG)</td>
-                  <td class="center">${student.hindi.toString().padStart(3, "0")}</td>
-                </tr>
-                <tr>
-                  <td class="center">17</td>
-                  <td>ENGLISH (2/3 LANG)</td>
-                  <td class="center">${student.english.toString().padStart(3, "0")}</td>
-                </tr>
-                <tr>
-                  <td class="center">71</td>
-                  <td>MATHEMATICS</td>
-                  <td class="center">${student.mathematics.toString().padStart(3, "0")}</td>
-                </tr>
-                <tr>
-                  <td class="center">72</td>
-                  <td>SCIENCE AND TECHNOLOGY</td>
-                  <td class="center">${student.science.toString().padStart(3, "0")}</td>
-                </tr>
-                <tr>
-                  <td class="center">73</td>
-                  <td>SOCIAL STUDIES</td>
-                  <td class="center">${student.social_science.toString().padStart(3, "0")}</td>
-                </tr>
-                <tr class="success">
-                  <td>£ Percentage</td>
-                  <td>£ ${student.percentage}</td>
-                  <td>Total Marks: ${student.total_marks}</td>
-                </tr>
-                <tr class="success">
-                  <td>Result</td>
-                  <td>${student.result_status}</td>
-                  <td>Out of 600</td>
-                </tr>
-                <tr>
-                  <td colspan="3" style="height:24px; border:none; color:#888; text-align:center;">
-                    <i>$-Additional sport/arts marks</i>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="3" style="height:24px; border:none;">£-Indicates total marks and Percentage calculated on the basis of "Best of 5" criteria
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 16px 0;" />
-          <div class="disclaimer">
-            <b>Disclaimer</b> Neither NIC nor Maharashtra State Board of Secondary and Higher Secondary Education, Pune is responsible for any inadvertent error that may have crept in the results being published online. The results published on net are for immediate information only. These cannot be treated as original statement of mark, please verify the information from original statement of marks issued by the Board separately and available at the time of declaration with the respective School.
-          </div>
-          <div class="note">
-            <b>Note for CIS candidates</b> It is obligatory for candidates admitted for class improvement to give their option within one month from the date on which marklists have been distributed. After that the board marklist with option will be given within the period of six months after paying extra charges. If no application with option is received within 6 months the class improvement performance will be considered as "Cancelled" and previous performance will be taken into account by divisional board.
-          </div>
-          <div class="hosted">
-            Hosted By National Informatics Centre (NIC). Data Provided By MSBSHSE, Pune
-          </div>
-        </div>
-      </body>
-    </html>
+  </head>
+  <body>
+	<div class="container">
+		<div id="header" class="header">
+		  <div class="row">
+			  <div id="imglogo" class="col-sm-2" style="margin-top: -3%;">
+				  <div class="card border-0">
+					  <div class="card-body">
+						  <img src="${mahastateduLogo}"/>
+					  </div>
+				  </div>
+			  </div>
+			  <div id="mhboardbanner" class="col-sm-10" style=" margin-top:-3%;">
+				  <div id="mhboardbannerin" class="card border-0">
+					  <div class="card-body">
+						  <div style="padding-left: 5%; margin-top:1%;" class="logo col-lg-10 col-md-10 col-sm-10">
+							  <p style="font-size:1.05em;">MAHARASHTRA STATE BOARD OF SECONDARY AND HIGHER SECONDARY
+								  EDUCATION, PUNE</p>
+   
+						  </div>
+						  <div id="mhboardbannerin1" style="padding-left: 5%; margin-top:-6%;" class="logo col-lg-10 col-md-10 col-sm-10">
+							  <p style="font-size:1em;"><b>SSC Examination March- 2025 RESULT</b></p>
+						  </div>
+					  </div>
+				  </div>
+			  </div>
+		  </div>
+   
+		  <div id="examresicon" style=" margin-top:-4%;" class="btb col-sm-12 row"><a class="col-3" href="http://results.gov.in" target="_blank"><img src="${icon01}"/></a>
+			  <div class="col-9 float-end ">
+				  <p style="font-size:.85em;">Brought to you by: <a style="text-decoration: none" href="http://www.nic.in/">NATIONAL INFORMATICS
+						  CENTRE</a></p>
+			  </div>
+		  </div>	
+   
+		  <nav id="togglenav" style=" margin-top:-3%;" class="navbar navbar-expand-lg navbar-light justify-content-center">
+			  <div>
+   
+			   <div class="navheader-div order-0">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+					 <span class="navbar-toggler-icon"></span>
+				   </button>
+				 </div>
+   
+				  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+					  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						  <li class="nav-item">
+							  <a class="nav-link active" aria-current="page" href="../default.htm">Home</a>
+						  </li>
+   
+   
+						  <li class="nav-item dropdown">
+							  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								  RESULTS
+							  </a>
+							  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								  <li><a class="dropdown-item " aria-current="page" href="sscmarch2024.htm">SSC
+										  Examination March- 2024 RESULT</a></li>
+   
+							  </ul>
+						  </li>
+						  <li class="nav-item">
+							  <a class="nav-link active" href="../disclaimer.htm" aria-current="page">Disclaimer</a>
+						  </li>
+					  </ul>
+				  </div>
+			  </div>
+		  </nav>
+   
+   
+   
+			</div><!-- /.container-fluid -->
+		  
+		</div>
+
+<!-- started code -->
+
+
+ <div style=" margin-top:-1%;" class="cont container">
+	<div id="hscexamdiv" style=" margin-top:4%;"><center><strong>SSC Examination March- 2024 RESULT</strong></center></div>
+	<div id="movup" class="row">
+		<div class="col-sm-12">
+			<div class="card border-0">
+				<div class="card-body">
+					<div class="cont container" id="container">
+						<div class="row">
+							<div style=" margin-top:-13%;" id="cardbody" class="col-sm-10">
+								<div id="res" style="background: transparent;" class="card border-0">
+									<div style=" margin-top:-1.5%;" class="card-body">
+										  <p style="text-align: left; margin-left:-5%;margin-top: 1em ;
+										  "><b>Candidate Name</b>: &nbsp;
+                                          ${student.student_name}
+										  </p>
+										  <p style="text-align: left; margin-left:-5%;margin-top: -0.8em ;
+										  "><b>Mother's Name</b>: &nbsp; 
+                                          ${student.mother_name}
+										  </p>
+										  <div id="movright">
+										  <p style="text-align: left; margin-left:-5%;margin-top: -0.8em ;
+										  "><b>Seat Number</b>: &nbsp; 
+                                          ${student.seat_number}
+										  </p>
+										  <p style="text-align: left; margin-left:-5%;margin-top: -0.8em ;
+										  "><b>Division</b>: &nbsp; 
+                                          ${student.division}
+										  </p>
+										  </div>
+									</div>
+								</div>
+							</div>
+							<div id="printdiv" class="col-sm-2">
+								<div style="background: transparent;" class="card border-0">
+									<div class="card-body">
+										<div style="float:right;" class="hidden-xs col-sm-4 hidden-print">
+											<button type="button" id="print" class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-print"></span> Print</button>
+										  </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="table">
+		<table class="table table-striped table-bordered table-hover">
+		   
+			 <thead>
+			<tr>
+			  <th>Subjects Code</th>
+			  <th>Subject Name</th>
+			  <th colspan="2">Marks Obtained</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			
+			  <td>01</td>
+			  <td>MARATHI (1ST LANG)</td>
+			  <td colspan="2">${student.marathi < 10 ? '00' + student.marathi : (student.marathi < 100 ? '0' + student.marathi : student.marathi)}</td>
+			</tr>
+			
+			<tr>
+			   <td>15</td>
+			  <td>HINDI (2/3 LANG)</td>
+              <td colspan="2">${student.hindi < 10 ? '00' + student.hindi : (student.hindi < 100 ? '0' + student.hindi : student.hindi)}</td>
+			</tr>
+			
+			<tr>
+			 <td>17</td>
+				<td>ENGLISH (2/3 LANG)</td>
+                <td colspan="2">${student.english < 10 ? '00' + student.english : (student.english < 100 ? '0' + student.english : student.english)}</td>
+			</tr>
+			
+			<tr>
+			 <td>71</td>
+			  <td>MATHEMATICS</td>
+              <td colspan="2">${student.mathematics < 10 ? '00' + student.mathematics : (student.mathematics < 100 ? '0' + student.mathematics : student.mathematics)}</td>
+			</tr>
+			
+			<tr>
+			 <td>72</td>
+			  <td>SCIENCE &amp; TECHNOLOGY</td>
+              <td colspan="2">${student.science < 10 ? '00' + student.science : (student.science < 100 ? '0' + student.science : student.science)}</td>
+			</tr>
+			
+			<tr>
+			 <td>73</td>
+			  <td>SOCIAL SCIENCES</td>
+              <td colspan="2">${student.social_science < 10 ? '00' + student.social_science : (student.social_science < 100 ? '0' + student.social_science : student.social_science)}</td>
+			</tr>
+					
+			
+			<tr class="success" >
+			<td>£&nbsp;Percentage</td>
+			<td>£&nbsp;${student.percentage < 10.00 ? '00' + student.percentage : (student.percentage < 100.00 ? '0' + student.percentage : student.percentage)}</td></td>
+			<td style="text-align:left"><b>Total Marks</b></td>
+			<td>
+			
+			
+			
+			    <!-- 470&#43;07&nbsp;$  -->
+				
+				<!--HERE add this code for handling *-sign cases, as Total and sport are NULL in these 22/07/2020 -->
+				$&nbsp;${student.total_marks < 10 ? '00' + student.total_marks : (student.total_marks < 100 ? '0' + student.total_marks : student.total_marks)}+${student.additional_marks < 10 ? '0' + student.additional_marks : student.additional_marks}
+		
+			</td>
+		</tr>
+		
+		
+			<tr class="success">
+			<td>Result</td>
+			<td>${student.result_status}</td>
+		<!--    <td  style="text-align:left"><b>Out of</b></td>
+			<td  style="text-align:left"><b>500</b></td> -->
+			 <td style="text-align:left"><b>Out of</b></td>
+			 <td style="text-align:left"><b>500</b></td>
+			 
+			</tr>
+			
+			<tr class="danger">
+			  <td colspan="4" style="text-align:center;font-style:italic">$ - Additional sport/art marks.</td>
+				  </tr>
+			
+			<tr><td colspan="4">£-Indicates total 
+			  marks and Percentage calculated on the basis of "Best of 5" 
+			  criteria</td></tr>
+		  </tbody>
+		</table>
+
+
+
+<div style="margin-top: -.5em;" id="notdisplay">
+	<p style="margin-top: 0.5em" align="justify"><font face="Times New Roman" size="1"> <b>Disclaimer</b>
+	Neither NIC nor Maharashtra State Board of Secondary and Higher Secondary 
+	Education, Pune is responsible for any inadvertent error that may have 
+	crept in the results being published online. The results published on 
+	net are for immediate information only. These cannot be treated as original 
+	statement of mark,please verify the information from original statement 
+	of marks issued by the Board separately and available at the time of declaration 
+	with the respective School.</font> </p>
+	<p style="margin-top: -1em ;margin-bottom: 0.5em ;" align="justify"><font face="Times New Roman" size="1"> <b>Note for CIS candidates</b>
+		It is obligatory for candidates admitted for class improvement to give their option
+		within one month from the date on which marklists have been distributed.After that
+		the board marklist with option will be given within the period of six months after
+		paying extra charges.If no application with option is received within 6 months the
+		class improvement performance will be considered as "Cancelled" and previous
+		performance will be taken into account by divisional board.</font></p>
+	
+		<div style="margin-top:2.2em"><center><font face="Times New Roman" size="2">Hosted By National 
+	Informatics Centre (NIC). Data Provided By MSBSHSE, Pune</font></center><font face="Times New Roman" size="2"> </font></div><font face="Times New Roman" size="2">
+  </font></div><font face="Times New Roman" size="2">
+	  <script>
+		window.onload = function() {
+			const printbtn = document.getElementById('print');
+			if(printbtn) {
+				printbtn.addEventListener('click', function() {
+					window.print();
+				});
+			}
+		}
+	</script>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+  
+</font></div></div></div></div></div></div></body></html>
   `;
-}
+  return html;
+};
 
 const ResultCard = ({ student }: ResultCardProps) => {
   const [showDetails, setShowDetails] = useState(false);
-  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
-  // const printRef = useRef<HTMLDivElement>(null);
+  const [isOpening, setIsOpening] = useState(false);
 
-  const handleDownload = async () => {
-    setIsGeneratingPDF(true);
-    
+  const handleDownload = () => {
+    setIsOpening(true);
     try {
-      const element = document.createElement('div');
-      element.innerHTML = getResultHTML(student);
+      // Get the HTML content
+      const htmlContent = getResultHTML(student);
       
-      const opt = {
-        margin: [10, 10, 10, 50],
-        filename: `result_${student.seat_number}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-          scale: 2,
-          useCORS: true,
-          letterRendering: true
-        },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-
-      await html2pdf().from(element).set(opt).save();
+      // Open in new window
+      const newWindow = window.open('', '_blank');
+      if (newWindow) {
+        newWindow.document.write(htmlContent);
+        newWindow.document.close();
+      }
     } catch (error) {
-      console.error('Error generating PDF:', error);
+      console.error('Error opening result:', error);
     } finally {
-      setIsGeneratingPDF(false);
+      setIsOpening(false);
     }
   };
 
@@ -365,11 +380,11 @@ const ResultCard = ({ student }: ResultCardProps) => {
               variant="primary" 
               size="sm" 
               onClick={handleDownload}
-              disabled={isGeneratingPDF}
+              disabled={isOpening}
               className="flex-1 sm:flex-none"
             >
               <Download size={16} className="mr-1" />
-              {isGeneratingPDF ? 'Generating...' : 'Download Result'}
+              {isOpening ? 'Opening...' : 'Download Result'}
             </Button>
           </div>
         </div>
