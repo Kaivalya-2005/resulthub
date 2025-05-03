@@ -34,7 +34,7 @@ function getResultHTML(student: ResultCardProps['student']) {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<title>SSC Result 2024::MSBSHSE, PUNE</title>
+	<title>SSC Result 2025::MSBSHSE, PUNE</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="/bootstrap.min.css" />
     <link rel="stylesheet" href="/main.css" />
@@ -95,7 +95,7 @@ function getResultHTML(student: ResultCardProps['student']) {
 							  </a>
 							  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 								  <li><a class="dropdown-item " aria-current="page" href="sscmarch2024.htm">SSC
-										  Examination March- 2024 RESULT</a></li>
+										  Examination March- 2025 RESULT</a></li>
    
 							  </ul>
 						  </li>
@@ -117,7 +117,7 @@ function getResultHTML(student: ResultCardProps['student']) {
 
 
  <div style=" margin-top:-1%;" class="cont container">
-	<div id="hscexamdiv" style=" margin-top:4%;"><center><strong>SSC Examination March- 2024 RESULT</strong></center></div>
+	<div id="hscexamdiv" style=" margin-top:4%;"><center><strong>SSC Examination March- 2025 RESULT</strong></center></div>
 	<div id="movup" class="row">
 		<div class="col-sm-12">
 			<div class="card border-0">
