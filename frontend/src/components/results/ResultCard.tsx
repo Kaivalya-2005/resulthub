@@ -29,7 +29,8 @@ interface ResultCardProps {
     result_status: string;
   };
 }
-const mahastatuLogo = 'https://drive.google.com/uc?export=view&id=1DtrPyZAEnjAdtPt8hAD6x-S2GFB7yDqR';
+const mahastatuLogo = 'data:image/jpeg;base64,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';
+
 function getResultHTML(student: ResultCardProps['student']) {
   try {
     return `
@@ -139,15 +140,6 @@ const ResultCard = ({ student }: ResultCardProps) => {
 
     setIsGeneratingPDF(true);
     try {
-      // Preload the logo
-      await new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = "anonymous";  // Enable CORS
-        img.onload = () => resolve(img);
-        img.onerror = () => reject(new Error('Failed to load logo'));
-        img.src = mahastatuLogo;
-      });
-
       const template = document.createElement("div");
       template.style.position = "absolute";
       template.style.left = "-9999px";
@@ -158,17 +150,7 @@ const ResultCard = ({ student }: ResultCardProps) => {
 
       const canvas = await html2canvas(template, {
         scale: 2,
-        useCORS: true,
-        logging: true,
-        allowTaint: true,
-        imageTimeout: 15000, // Increase timeout to 15 seconds
-        onclone: (clonedDoc) => {
-          // Force image loading in cloned document
-          const images = clonedDoc.getElementsByTagName('img');
-          for (let img of images) {
-            img.crossOrigin = "anonymous";
-          }
-        }
+        logging: false,
       });
 
       const pdf = new jsPDF({

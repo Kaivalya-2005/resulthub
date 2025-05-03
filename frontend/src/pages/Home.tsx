@@ -13,6 +13,7 @@ interface StudentResult {
   seat_number: string;
   student_name: string; 
   mother_name: string;
+  division: string; // Add this line
   marathi: number;
   hindi: number;
   english: number;
@@ -64,8 +65,14 @@ const Home = () => {
         }
       }, 100);
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 404) {
-        setError('No student found with these credentials. Please check and try again.');
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 404) {
+          setError('No student found with these credentials. Please check and try again.');
+        } else if (err.response?.status === 400) {
+          setError('Invalid input. Please check your seat number and mother\'s name.');
+        } else {
+          setError('Server error. Please try again later.');
+        }
       } else {
         setError('An error occurred while fetching the results. Please try again later.');
       }
@@ -110,7 +117,7 @@ const Home = () => {
               <div className="space-y-4 mb-6">
                 <Input
                   label="Seat Number"
-                  placeholder="Enter your seat number (e.g., A000001)"
+                  placeholder="e.g., A000001"
                   value={seatNumber}
                   onChange={(e) => setSeatNumber(e.target.value)}
                 />
