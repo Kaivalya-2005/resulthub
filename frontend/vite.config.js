@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     react(),
     string({
-      include: ['**/*.css'], // ✅ Treat all .css files as raw strings
+      include: ['**/*.html'], // ✅ Treat all .css files as raw strings
     }),
   ],
   optimizeDeps: {
