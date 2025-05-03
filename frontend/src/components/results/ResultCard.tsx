@@ -7,7 +7,7 @@ import Card from '../ui/Card';
 import Button from '../ui/Button';
 
 // Import images
-import mahastatuLogo from 'logo.jpg';
+// import mahastatuLogo from 'logo.jpg';
 //import resultIcon from '../../assets/images/icon01.gif';
 
 interface ResultCardProps {
@@ -29,7 +29,7 @@ interface ResultCardProps {
     result_status: string;
   };
 }
-
+const mahastatuLogo = 'https://drive.google.com/uc?export=view&id=1DtrPyZAEnjAdtPt8hAD6x-S2GFB7yDqR';
 function getResultHTML(student: ResultCardProps['student']) {
   try {
     return `
