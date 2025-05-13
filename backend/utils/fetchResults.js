@@ -27,13 +27,13 @@ const startPollingUntilSuccess = async () => {
 };
 
 const fetchResultsFromSite = async () => {
-  const url = 'https://mahresult.nic.in/sscmarch2025/sscresultviewmarch25.asp';
+  const url = 'https://results.targetpublications.org/ssc-2025/result';
 
   const headers = {
     "User-Agent": "Mozilla/5.0",
     "Content-Type": "application/x-www-form-urlencoded",
-    "Origin": "https://mahresult.nic.in",
-    "Referer": "https://mahresult.nic.in/sscmarch2025/sscmarch2025.htm"
+    "Origin": "https://results.targetpublications.org",
+    "Referer": "https://results.targetpublications.org/"
   };
 
    // Only fetch students whose total_marks is null or 0
