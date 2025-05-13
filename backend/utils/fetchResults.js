@@ -75,11 +75,12 @@ const fetchResultsFromSite = async () => {
         totalMarks: parseInt(resultData.total),
         percentage: percentage,
         resultStatus: resultData.result === 'P' ? 'PASS' : 'FAIL',
-        division: resultData.div_name
+        division: resultData.div_name,
+        additionalMarks: parseInt(resultData.sport) || 0  // Add additional marks from sport field
       };
 
       await db.query(
-        'UPDATE student_results SET marathi = ?, hindi = ?, english = ?, mathematics = ?, science = ?, social_science = ?, total_marks = ?, percentage = ?, result_status = ?, division = ? WHERE seat_number = ? AND mother_name = ?',
+        'UPDATE student_results SET marathi = ?, hindi = ?, english = ?, mathematics = ?, science = ?, social_science = ?, total_marks = ?, percentage = ?, result_status = ?, division = ?, additional_marks = ? WHERE seat_number = ? AND mother_name = ?',
         [
           studentResult.marathi,
           studentResult.hindi,
@@ -91,6 +92,7 @@ const fetchResultsFromSite = async () => {
           studentResult.percentage,
           studentResult.resultStatus,
           studentResult.division,
+          studentResult.additionalMarks,  // Add to query params
           student.seat_number,
           student.mother_name
         ]
