@@ -219,7 +219,7 @@ function getResultHTML(student: ResultCardProps['student']) {
 			    <!-- 470&#43;07&nbsp;$  -->
 				
 				<!--HERE add this code for handling *-sign cases, as Total and sport are NULL in these 22/07/2020 -->
-				$&nbsp;${student.total_marks < 10 ? '00' + student.total_marks : (student.total_marks < 100 ? '0' + student.total_marks : student.total_marks)}+${student.additional_marks < 10 ? '0' + student.additional_marks : student.additional_marks}
+				$&nbsp;${student.total_marks < 10 ? '00' + student.total_marks : (student.total_marks < 100 ? '0' + student.total_marks : student.total_marks)}${student.additional_marks > 0 ? '+' + (student.additional_marks < 10 ? '0' + student.additional_marks : student.additional_marks) : ''}
 		
 			</td>
 		</tr>
