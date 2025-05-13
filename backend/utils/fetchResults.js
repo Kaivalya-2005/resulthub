@@ -42,8 +42,9 @@ const fetchResultsFromSite = async () => {
     const url = `https://sscresult-4.mahahsscboard.in/api/result/getResult/${student.seat_number}`;
 
     const headers = {
+
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0",
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/json; charset=utf-8",
       "Origin": "https://sscresult.mahahsscboard.in",
       "Referer": "https://sscresult.mahahsscboard.in/"
     };
